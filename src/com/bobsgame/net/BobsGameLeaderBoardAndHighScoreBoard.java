@@ -108,7 +108,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 	ArrayList<BobsGameLeaderBoardAndHighScoreBoardEntry> entries = new ArrayList<BobsGameLeaderBoardAndHighScoreBoardEntry>();
 
-	int maxEntries = 10;
+	int maxEntries = 20;
 
 
 
@@ -744,7 +744,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		//boolean compareTotalBlocksCleared
 		//boolean compareTotalTimePlayed
 
-		for(int i=0;i<maxEntries;i++)
+		for(int i=0;i<entries.size();i++)
 		{
 
 			BobsGameLeaderBoardAndHighScoreBoardEntry existingEntry = entries.get(i);
@@ -1009,8 +1009,22 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 			if(replaceScore)
 			{
+
+				//go through rest of entries and if this userID is in any of them, remove them
+				for(int n=0;n<entries.size();n++)
+				{
+					BobsGameLeaderBoardAndHighScoreBoardEntry tempEntry = entries.get(n);
+					if(tempEntry.userID == game.userID){entries.remove(n);n--;}
+				}
+
 				entries.add(i,newEntry);
+
+				//if this puts us over, delete last entry
 				while(entries.size()>maxEntries)entries.remove(entries.size()-1);
+
+				//if we removed more than 1, add blank ones at the end
+				while(entries.size()<maxEntries)entries.add(new BobsGameLeaderBoardAndHighScoreBoardEntry());
+
 				return true;
 			}
 
