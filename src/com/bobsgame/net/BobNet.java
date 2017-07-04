@@ -4,6 +4,7 @@ public class BobNet
 {
 
 	public static String endline = ":END:\r\n";
+	public static String batch = ":BATCH:";
 
 
 
@@ -274,6 +275,10 @@ public class BobNet
 	public static final String Bobs_Game_GameStats = "Bobs_Game_GameStats:";
 
 
+
+
+
+	public static final String Bobs_Game_UserStatsLeaderBoardsAndHighScoresBatched = "Bobs_Game_UserStatsLeaderBoardsAndHighScoresBatched:";
 	public static final String Bobs_Game_UserStatsForSpecificGameAndDifficulty = "Bobs_Game_UserStatsForSpecificGameAndDifficulty:";
 	public static final String Bobs_Game_LeaderBoardsByTotalTimePlayed = "Bobs_Game_LeaderBoardsByTotalTimePlayed:";
 	public static final String Bobs_Game_LeaderBoardsByTotalBlocksCleared = "Bobs_Game_LeaderBoardsByTotalBlocksCleared:";
