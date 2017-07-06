@@ -37,7 +37,7 @@ public class BobNet
 	//================================
 	// used to connect to STUN and then for CLIENT P2P
 	//================================
-	public static int clientUDPPortStartRange = 6434;
+	public static int clientUDPPortStartRange = 6435;
 
 
 
