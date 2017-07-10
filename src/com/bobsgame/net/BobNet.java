@@ -301,4 +301,16 @@ public class BobNet
 
 
 
+
+	public static final String Server_Stats_Request = "Server_Stats_Request:";
+	public static final String Server_Stats_Response = "Server_Stats_Response:";
+
+	public static final String Client_Location_Request = "Client_Location_Request:";
+	public static final String Client_Location_Response = "Client_Location_Response:";
+
+
+
+
+
+
 }

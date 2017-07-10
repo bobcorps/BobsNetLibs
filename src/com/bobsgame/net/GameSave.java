@@ -319,8 +319,8 @@ public class GameSave
 	{//===============================================================================================
 
 
-		log.debug("variableName:"+variableName);
-		log.debug("value:"+value);
+		//log.debug("variableName:"+variableName);
+		//log.debug("value:"+value);
 
 		if(variableName.length()==0)return null;
 		if(value.length()==0)return null;
