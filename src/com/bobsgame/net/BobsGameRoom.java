@@ -13,25 +13,47 @@ public class BobsGameRoom
 
 
 	public int currentNumPlayers = 0;
-	public int maxPlayers = -1;
-	public boolean privateRoom = false;
-	public boolean tournamentRoom = false;
+	public int maxPlayers = 0;
+	public int privateRoom = 0;
+	public int tournamentRoom = 0;
 	public String uuid = "";
-	public long hostUserID = -1;
-	public boolean multiplayer_AllowDifferentDifficulties = true;
-	public boolean multiplayer_AllowDifferentGameSequences = true;
-	public boolean multiplayer_GameEndsWhenOnePlayerRemains = true;
-	public boolean multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = true;
-	public boolean multiplayer_DisableVSGarbage = false;
+	public long hostUserID = 0;
+	public int multiplayer_AllowDifferentDifficulties = 1;
+	public int multiplayer_AllowDifferentGameSequences = 1;
+	public int multiplayer_GameEndsWhenOnePlayerRemains = 1;
+	public int multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = 1;
+	public int multiplayer_DisableVSGarbage = 0;
 	public String gameSequenceOrTypeName = "";
 	public String gameSequenceUUID = "";
 	public String gameTypeUUID = "";
-	public String multiplayer_SelectedDifficultyName = "Beginner";
-	public boolean isGameSequence = false;
-	public boolean isGameType = false;
+	public String difficultyName = "Beginner";
+	public int endlessMode = 0;
+	//public boolean isGameSequence = false;
+	//public boolean isGameType = false;
 	public long timeStarted = 0;
 	public long timeLastGotUpdate = 0;
 
+	public String isGameSequenceOrType = "";
+
+
+
+	public float gameSpeedStart = 0.01f;
+	public float gameSpeedIncreaseRate = 0.02f;
+	public float gameSpeedMaximum = 1.0f;//can be 0.1 to 10.0 although that won't make sense
+	public float levelUpMultiplier = 1.0f;//can be negative
+	public float levelUpCompoundMultiplier = 1.0f;//can be negative
+	public int multiplayer_AllowNewPlayersDuringGame = 0;
+	public int multiplayer_UseTeams = 0;
+	public float multiplayer_GarbageMultiplier = 1.0f;
+	public int multiplayer_GarbageLimit = 0;
+	public int multiplayer_GarbageScaleByDifficulty = 1;//scale garbage by difficulty, beginner->insane 2x, insane->beginner 0.5x, etc.
+	public int multiplayer_SendGarbageTo = (int)0;
+	public int multiplayer_FloorSpinLimit = 0;
+	public int multiplayer_LockDelayLimit = 0;
+	public int multiplayer_LockDelayMinimum = 0;
+	public int multiplayer_StackWaitLimit = 0;
+	public int multiplayer_DropDelayLimit = 0;
+	public int multiplayer_DropDelayMinimum = 0;
 
 	//=========================================================================================================================
 	public String encodeRoomData()
@@ -46,7 +68,7 @@ public class BobsGameRoom
 
 			s += ",`" + gameSequenceOrTypeName + "`";
 
-			if (isGameType)
+			if (isGameSequenceOrType.equals("GameType"))
 			{
 				s += ",GameType," + gameTypeUUID;
 			}
@@ -61,14 +83,35 @@ public class BobsGameRoom
 
 			"," + currentNumPlayers +
 			"," + maxPlayers +
-			"," + (int)(privateRoom? 1 : 0) +
-			"," + (int)(tournamentRoom? 1 : 0) +
-			"," + multiplayer_SelectedDifficultyName +
-			"," + (int)(multiplayer_AllowDifferentDifficulties? 1 : 0) +
-			"," + (int)(multiplayer_AllowDifferentGameSequences? 1 : 0) +
-			"," + (int)(multiplayer_GameEndsWhenOnePlayerRemains? 1 : 0) +
-			"," + (int)(multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel? 1 : 0) +
-			"," + (int)(multiplayer_DisableVSGarbage? 1 : 0) +
+			"," + privateRoom +
+			"," + tournamentRoom +
+			"," + difficultyName +
+			"," + endlessMode +
+			"," + multiplayer_AllowDifferentDifficulties +
+			"," + multiplayer_AllowDifferentGameSequences +
+			"," + multiplayer_GameEndsWhenOnePlayerRemains +
+			"," + multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel +
+			"," + multiplayer_DisableVSGarbage +
+
+			"," + (gameSpeedStart) +
+			"," + (gameSpeedIncreaseRate) +
+			"," + (gameSpeedMaximum) +
+			"," + (levelUpMultiplier) +
+			"," + (levelUpCompoundMultiplier) +
+			"," + (multiplayer_AllowNewPlayersDuringGame) +
+			"," + (multiplayer_UseTeams) +
+			"," + (multiplayer_GarbageMultiplier) +
+			"," + (multiplayer_GarbageLimit) +
+			"," + (multiplayer_GarbageScaleByDifficulty) +
+			"," + (multiplayer_SendGarbageTo) +
+			"," + (multiplayer_FloorSpinLimit) +
+			"," + (multiplayer_LockDelayLimit) +
+			"," + (multiplayer_LockDelayMinimum) +
+			"," + (multiplayer_StackWaitLimit) +
+			"," + (multiplayer_DropDelayLimit) +
+			"," + (multiplayer_DropDelayMinimum) +
+
+
 			",";
 
 
@@ -89,7 +132,7 @@ public class BobsGameRoom
 		String gameSequenceOrTypeName = s.substring(0, s.indexOf("`"));
 		s = s.substring(s.indexOf("`") + 1);
 		s = s.substring(s.indexOf(",") + 1);
-		String isGameSequenceOrType = s.substring(0, s.indexOf(","));
+		isGameSequenceOrType = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 		String gameSequenceOrTypeUUID = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
@@ -101,8 +144,17 @@ public class BobsGameRoom
 		s = s.substring(s.indexOf(",") + 1);
 		String tournamentRoomString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
-		String multiplayer_SelectedDifficultyNameString = s.substring(0, s.indexOf(","));
+
+
+
+
+		String difficultyNameString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
+
+		String endlessModeString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+
+
 		String multiplayer_AllowDifferentDifficultiesString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_AllowDifferentGameSequencesString = s.substring(0, s.indexOf(","));
@@ -113,6 +165,45 @@ public class BobsGameRoom
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_DisableVSGarbageString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
+
+
+
+
+		String gameSpeedStartString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String gameSpeedIncreaseRateString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String gameSpeedMaximumString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String levelUpMultiplierString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String levelUpCompoundMultiplierString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_AllowNewPlayersDuringGameString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_UseTeamsString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_GarbageMultiplierString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_GarbageLimitString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_GarbageScaleByDifficultyString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_SendGarbageToString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_FloorSpinLimitString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_LockDelayLimitString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_LockDelayMinimumString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_StackWaitLimitString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_DropDelayLimitString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_DropDelayMinimumString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+
 
 
 
@@ -137,7 +228,7 @@ public class BobsGameRoom
 
 		newRoom.gameSequenceOrTypeName = gameSequenceOrTypeName;
 
-		if (isGameSequenceOrType == "GameType")
+		if (isGameSequenceOrType.equals("GameType"))
 		{
 			//newRoom.isSingleGameType = true;
 			newRoom.gameTypeUUID = gameSequenceOrTypeUUID;
@@ -172,7 +263,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.privateRoom = 0 != Integer.parseInt(privateRoomString);
+			newRoom.privateRoom = Integer.parseInt(privateRoomString);
 		}
 		catch (Exception e)
 		{
@@ -182,7 +273,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.tournamentRoom = 0 != Integer.parseInt(tournamentRoomString);
+			newRoom.tournamentRoom = Integer.parseInt(tournamentRoomString);
 		}
 		catch (Exception e)
 		{
@@ -190,11 +281,23 @@ public class BobsGameRoom
 			return null;
 		}
 
-		newRoom.multiplayer_SelectedDifficultyName = multiplayer_SelectedDifficultyNameString;
+		newRoom.difficultyName = difficultyNameString;
+
 
 		try
 		{
-			newRoom.multiplayer_AllowDifferentDifficulties = 0 != Integer.parseInt(multiplayer_AllowDifferentDifficultiesString);
+			newRoom.endlessMode = Integer.parseInt(endlessModeString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse endlessMode");
+			return null;
+		}
+
+
+		try
+		{
+			newRoom.multiplayer_AllowDifferentDifficulties = Integer.parseInt(multiplayer_AllowDifferentDifficultiesString);
 		}
 		catch (Exception e)
 		{
@@ -202,9 +305,11 @@ public class BobsGameRoom
 			return null;
 		}
 
+
+
 		try
 		{
-			newRoom.multiplayer_AllowDifferentGameSequences = 0 != Integer.parseInt(multiplayer_AllowDifferentGameSequencesString);
+			newRoom.multiplayer_AllowDifferentGameSequences = Integer.parseInt(multiplayer_AllowDifferentGameSequencesString);
 		}
 		catch (Exception e)
 		{
@@ -214,7 +319,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_GameEndsWhenOnePlayerRemains = 0 != Integer.parseInt(multiplayer_GameEndsWhenAllOpponentsLoseString);
+			newRoom.multiplayer_GameEndsWhenOnePlayerRemains = Integer.parseInt(multiplayer_GameEndsWhenAllOpponentsLoseString);
 		}
 		catch (Exception e)
 		{
@@ -224,7 +329,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = 0 != Integer.parseInt(multiplayer_GameEndsWhenSomeoneCompletesCreditsLevelString);
+			newRoom.multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = Integer.parseInt(multiplayer_GameEndsWhenSomeoneCompletesCreditsLevelString);
 		}
 		catch (Exception e)
 		{
@@ -234,13 +339,52 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_DisableVSGarbage = 0 != Integer.parseInt(multiplayer_DisableVSGarbageString);
+			newRoom.multiplayer_DisableVSGarbage = Integer.parseInt(multiplayer_DisableVSGarbageString);
 		}
 		catch (Exception e)
 		{
 			log.error("Could not parse multiplayer_DisableVSGarbage");
 			return null;
 		}
+
+
+
+
+
+		try
+		{
+
+			newRoom.gameSpeedStart							 = Float.parseFloat(gameSpeedStartString);
+			newRoom.gameSpeedIncreaseRate					 = Float.parseFloat(gameSpeedIncreaseRateString);
+			newRoom.gameSpeedMaximum						 = Float.parseFloat(gameSpeedMaximumString);
+			newRoom.levelUpMultiplier						 = Float.parseFloat(levelUpMultiplierString);
+			newRoom.levelUpCompoundMultiplier				 = Float.parseFloat(levelUpCompoundMultiplierString);
+			newRoom.multiplayer_AllowNewPlayersDuringGame	 = Integer.parseInt(multiplayer_AllowNewPlayersDuringGameString);
+			newRoom.multiplayer_UseTeams					 = Integer.parseInt(multiplayer_UseTeamsString);
+			newRoom.multiplayer_GarbageMultiplier			 = Float.parseFloat(multiplayer_GarbageMultiplierString);
+			newRoom.multiplayer_GarbageLimit				 = Integer.parseInt(multiplayer_GarbageLimitString);
+			newRoom.multiplayer_GarbageScaleByDifficulty	 = Integer.parseInt(multiplayer_GarbageScaleByDifficultyString);
+			newRoom.multiplayer_SendGarbageTo				 = Integer.parseInt(multiplayer_SendGarbageToString);
+			newRoom.multiplayer_FloorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
+			newRoom.multiplayer_LockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
+			newRoom.multiplayer_LockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
+			newRoom.multiplayer_StackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
+			newRoom.multiplayer_DropDelayLimit				 = Integer.parseInt(multiplayer_DropDelayLimitString);
+			newRoom.multiplayer_DropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
+
+
+
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse room options");
+			return null;
+		}
+
+
+
+
+
 
 
 		return newRoom;
