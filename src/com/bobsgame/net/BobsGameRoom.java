@@ -48,12 +48,16 @@ public class BobsGameRoom
 	public int multiplayer_GarbageLimit = 0;
 	public int multiplayer_GarbageScaleByDifficulty = 1;//scale garbage by difficulty, beginner->insane 2x, insane->beginner 0.5x, etc.
 	public int multiplayer_SendGarbageTo = (int)0;
-	public int multiplayer_FloorSpinLimit = 0;
-	public int multiplayer_LockDelayLimit = 0;
-	public int multiplayer_LockDelayMinimum = 0;
-	public int multiplayer_StackWaitLimit = 0;
-	public int multiplayer_DropDelayLimit = 0;
-	public int multiplayer_DropDelayMinimum = 0;
+	public int floorSpinLimit = 0;
+	public float lockDelayDecreaseMultiplier = 0;
+	public int lockDelayLimit = 0;
+	public int lockDelayMinimum = 0;
+	public int stackWaitLimit = 0;
+	//public int multiplayer_DropDelayLimit = 0;
+	public int spawnDelayLimit = 0;
+	public float spawnDelayDecreaseRate = 0;
+	public int spawnDelayMinimum = 0;
+	public int dropDelayMinimum = 0;
 
 	//=========================================================================================================================
 	public String encodeRoomData()
@@ -104,12 +108,16 @@ public class BobsGameRoom
 			"," + (multiplayer_GarbageLimit) +
 			"," + (multiplayer_GarbageScaleByDifficulty) +
 			"," + (multiplayer_SendGarbageTo) +
-			"," + (multiplayer_FloorSpinLimit) +
-			"," + (multiplayer_LockDelayLimit) +
-			"," + (multiplayer_LockDelayMinimum) +
-			"," + (multiplayer_StackWaitLimit) +
-			"," + (multiplayer_DropDelayLimit) +
-			"," + (multiplayer_DropDelayMinimum) +
+			"," + (floorSpinLimit) +
+			"," + (lockDelayDecreaseMultiplier) +
+			"," + (lockDelayLimit) +
+			"," + (lockDelayMinimum) +
+			"," + (stackWaitLimit) +
+
+			"," + (spawnDelayLimit) +
+			"," + (spawnDelayDecreaseRate) +
+			"," + (spawnDelayMinimum) +
+			"," + (dropDelayMinimum) +
 
 
 			",";
@@ -193,15 +201,26 @@ public class BobsGameRoom
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_FloorSpinLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
+		String multiplayer_LockDelayDecreaseMultiplierString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_LockDelayLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_LockDelayMinimumString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_StackWaitLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
-		String multiplayer_DropDelayLimitString = s.substring(0, s.indexOf(","));
+
+
+		String multiplayer_SpawnDelayLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
+
 		String multiplayer_DropDelayMinimumString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+
+		String multiplayer_SpawnDelayDecreaseRateString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+
+		String multiplayer_SpawnDelayMinimumString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 
 
@@ -365,12 +384,16 @@ public class BobsGameRoom
 			newRoom.multiplayer_GarbageLimit				 = Integer.parseInt(multiplayer_GarbageLimitString);
 			newRoom.multiplayer_GarbageScaleByDifficulty	 = Integer.parseInt(multiplayer_GarbageScaleByDifficultyString);
 			newRoom.multiplayer_SendGarbageTo				 = Integer.parseInt(multiplayer_SendGarbageToString);
-			newRoom.multiplayer_FloorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
-			newRoom.multiplayer_LockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
-			newRoom.multiplayer_LockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
-			newRoom.multiplayer_StackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
-			newRoom.multiplayer_DropDelayLimit				 = Integer.parseInt(multiplayer_DropDelayLimitString);
-			newRoom.multiplayer_DropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
+			newRoom.floorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
+			newRoom.lockDelayDecreaseMultiplier	 = Float.parseFloat(multiplayer_LockDelayDecreaseMultiplierString);
+			newRoom.lockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
+			newRoom.lockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
+			newRoom.stackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
+
+			newRoom.spawnDelayLimit			 	 = Integer.parseInt(multiplayer_SpawnDelayLimitString);
+			newRoom.spawnDelayDecreaseRate		 = Float.parseFloat(multiplayer_SpawnDelayDecreaseRateString);
+			newRoom.spawnDelayMinimum			 = Integer.parseInt(multiplayer_SpawnDelayMinimumString);
+			newRoom.dropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
 
 
 
