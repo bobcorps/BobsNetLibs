@@ -72,6 +72,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 	public String gameSequenceName = "";
 	public String gameSequenceUUID = "";
 	public String difficultyName = "";
+	public String objectiveString = "";
 
 
 
@@ -153,11 +154,17 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				gameTypeOrSequenceQueryString = "isGameTypeOrSequence = ?";
 				uuid = "OVERALL";
 			}
-
+			
 			String difficultyName = game.difficultyName;
 			if(anyDifficulty)
 			{
 				difficultyName = "OVERALL";
+			}
+
+			String objectiveString = "Play To Credits";
+			if(game.endlessMode==1)
+			{
+				objectiveString = "Endless Mode";
 			}
 
 			ResultSet resultSet = null;
@@ -168,12 +175,13 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				ps = databaseConnection.prepareStatement(
 						"SELECT " +
 						"* " +
-						"FROM "+databaseName+" WHERE "+gameTypeOrSequenceQueryString+" AND difficultyName = ?");
+						"FROM "+databaseName+" WHERE "+gameTypeOrSequenceQueryString+" AND difficultyName = ? AND objectiveString = ?");
 
 
 				int n = 0;
 				ps.setString(++n, uuid);
 				ps.setString(++n, difficultyName);
+				ps.setString(++n, objectiveString);
 				resultSet = ps.executeQuery();
 
 				if(resultSet.next())
@@ -197,6 +205,13 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			stats.gameSequenceUUID = game.gameSequenceUUID;
 			stats.gameSequenceName = game.gameSequenceName;
 			stats.difficultyName = game.difficultyName;
+			
+			stats.objectiveString = "Play To Credits";
+			if(game.endlessMode==1)
+			{
+				stats.objectiveString = "Endless Mode";
+			}
+
 
 			if(anyGame)
 			{
@@ -1060,6 +1075,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			gameSequenceName = databaseResultSet.getString("gameSequenceName");
 			gameSequenceUUID = databaseResultSet.getString("gameSequenceUUID");
 			difficultyName = databaseResultSet.getString("difficultyName");
+			objectiveString = databaseResultSet.getString("objectiveString");
 
 
 			if(isGameTypeOrSequence==null)isGameTypeOrSequence = "";
@@ -1068,6 +1084,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			if(gameSequenceName==null)gameSequenceName = "";
 			if(gameSequenceUUID==null)gameSequenceUUID = "";
 			if(difficultyName==null)difficultyName = "";
+			if(objectiveString==null)objectiveString = "";
 
 			for(int i=0;i<maxEntries;i++)
 			{
@@ -1124,6 +1141,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		gameSaveString+=",gameSequenceName:"+            			"`"+gameSequenceName+"`";
 		gameSaveString+=",gameSequenceUUID:"+            			"`"+gameSequenceUUID+"`";
 		gameSaveString+=",difficultyName:"+            			"`"+difficultyName+"`";
+		gameSaveString+=",objectiveString:"+            			"`"+objectiveString+"`";
 
 		for(int i=0;i<maxEntries;i++)
 		{
@@ -1206,10 +1224,15 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		t = s.substring(0, s.indexOf('`'));
 		if(t.length()>0)gameSequenceUUID = t;
 		s = s.substring(s.indexOf('`')+1);
-
+		
 		s = s.substring(s.indexOf('`')+1);
 		t = s.substring(0, s.indexOf('`'));
 		if(t.length()>0)difficultyName = t;
+		s = s.substring(s.indexOf('`')+1);
+
+		s = s.substring(s.indexOf('`')+1);
+		t = s.substring(0, s.indexOf('`'));
+		if(t.length()>0)objectiveString = t;
 		s = s.substring(s.indexOf('`')+1);
 
 		for(int i=0;i<maxEntries;i++)
@@ -1375,6 +1398,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		query +="gameSequenceName = ? , ";
 		query +="gameSequenceUUID = ? , ";
 		query +="difficultyName = ? , ";
+		query +="objectiveString = ? , ";
 
 		for(int i=0;i<maxEntries;i++)
 		{
@@ -1419,6 +1443,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			ps.setString	(++n, gameSequenceName);
 			ps.setString	(++n, gameSequenceUUID);
 			ps.setString	(++n, difficultyName);
+			ps.setString	(++n, objectiveString);
 
 
 			for(int i=0;i<maxEntries;i++)
@@ -1529,7 +1554,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			if(i<maxEntries-1)query +=" , ";
 		}
 
-		query += "WHERE "+gameTypeOrSequenceQueryString+" AND difficultyName = ?";
+		query += "WHERE "+gameTypeOrSequenceQueryString+" AND difficultyName = ? AND objectiveString = ?";
 
 		{
 
@@ -1573,6 +1598,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 				ps.setString(++n, uuid);
 				ps.setString(++n, difficultyName);
+				ps.setString(++n, objectiveString);
 				ps.executeUpdate();
 
 				ps.close();

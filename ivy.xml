@@ -17,9 +17,9 @@
 <!-- bobnet -->
 <dependency org="com.google.code.gson" name="gson" rev="latest.integration" />
 <dependency org="com.googlecode.soundlibs" name="jorbis" rev="latest.integration" />
-<dependency org="org.slf4j" name="slf4j-api" rev="latest.integration" />
-<dependency org="org.slf4j" name="jcl-over-slf4j" rev="latest.integration" conf="default->runtime" />
-<dependency org="org.slf4j" name="log4j-over-slf4j" rev="latest.integration" conf="default->runtime" />
+<dependency org="org.slf4j" name="slf4j-api" rev="1.7.25" />
+<dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.7.25" conf="default->runtime" />
+<dependency org="org.slf4j" name="log4j-over-slf4j" rev="1.7.25" conf="default->runtime" />
 <dependency org="ch.qos.logback" name="logback-classic" rev="latest.integration" conf="*->master" />
 <dependency org="ch.qos.logback" name="logback-core" rev="latest.integration" conf="*->master" />
 <dependency org="log4j" name="log4j" rev="latest.integration" conf="default->runtime" />

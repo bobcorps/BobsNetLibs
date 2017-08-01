@@ -29,6 +29,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 	public String gameSequenceName = "";
 	public String gameSequenceUUID = "";
 	public String difficultyName = "";
+	public String objectiveString = "";
 
 
 	public int totalGamesPlayed = 0;
@@ -111,7 +112,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 	}
 
 	//===============================================================================================
-	static public BobsGameUserStatsForSpecificGameAndDifficulty getFromDBOrCreateNewIfNotExist(Connection databaseConnection, long userID, String userName, String isGameTypeOrSequence, String gameTypeUUID, String gameTypeName, String gameSequenceUUID, String gameSequenceName, String difficultyName)
+	static public BobsGameUserStatsForSpecificGameAndDifficulty getFromDBOrCreateNewIfNotExist(Connection databaseConnection, long userID, String userName, String isGameTypeOrSequence, String gameTypeUUID, String gameTypeName, String gameSequenceUUID, String gameSequenceName, String difficultyName, String objectiveString)
 	{//===============================================================================================
 
 		BobsGameUserStatsForSpecificGameAndDifficulty stats = null;
@@ -150,13 +151,14 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				ps = databaseConnection.prepareStatement(
 						"SELECT " +
 						"* " +
-						"FROM "+BobNet.Bobs_Game_User_Stats_For_Specific_Game_And_Difficulty_DB_Name+" WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ?");
+						"FROM "+BobNet.Bobs_Game_User_Stats_For_Specific_Game_And_Difficulty_DB_Name+" WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ?  AND objectiveString = ?");
 
 
 				int n = 0;
 				ps.setLong(++n, userID);
 				ps.setString(++n, uuid);
 				ps.setString(++n, difficultyName);
+				ps.setString(++n, objectiveString);
 				resultSet = ps.executeQuery();
 
 				if(resultSet.next())
@@ -183,6 +185,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			stats.gameSequenceUUID = gameSequenceUUID;
 			stats.gameSequenceName = gameSequenceName;
 			stats.difficultyName = difficultyName;
+			stats.objectiveString = objectiveString;
 			stats.initDB(databaseConnection);
 		}
 
@@ -288,18 +291,47 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				if(x==0)friendIDs = friendIDsWhoLost;
 				if(x==1)friendIDs = friendIDsWhoWon;
 
-				for(int n=0; n<friendIDs.size(); n++)
+				for(int i=0; i<friendIDs.size(); i++)
 				{
-					long friendUserID = friendIDs.get(n).longValue();
+					long friendUserID = friendIDs.get(i).longValue();
 					double friendEloScore = -1;
 					try
 					{
+						
+						
+						String gameTypeOrSequenceQueryString = "";
+						String uuid = "";
+						if(isGameTypeOrSequence.equals("GameType"))
+						{
+							gameTypeOrSequenceQueryString = "gameTypeUUID = ?";
+							uuid = gameTypeUUID;
+						}
+
+						if(isGameTypeOrSequence.equals("GameSequence"))
+						{
+							gameTypeOrSequenceQueryString = "gameSequenceUUID = ?";
+							uuid = gameSequenceUUID;
+						}
+
+						if(isGameTypeOrSequence.equals("OVERALL"))
+						{
+							gameTypeOrSequenceQueryString = "isGameTypeOrSequence = ?";
+							uuid = "OVERALL";
+						}
+						
+						
+						
+						
 						ps = databaseConnection.prepareStatement(
 								"SELECT " +
 								"eloScore" +
-								"FROM "+BobNet.Bobs_Game_User_Stats_For_Specific_Game_And_Difficulty_DB_Name+" WHERE userID = ? AND isGameTypeOrSequence = ? AND gameTypeUUID = ? AND gameSequenceUUID = ? AND difficultyName = ? ");
+								"FROM "+BobNet.Bobs_Game_User_Stats_For_Specific_Game_And_Difficulty_DB_Name+" WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ? AND objectiveString = ? ");
 
-						ps.setLong(1, friendUserID);
+						int n=0;
+						ps.setLong(++n, friendUserID);
+						ps.setString(++n, uuid);
+						ps.setString(++n, difficultyName);
+						ps.setString(++n, objectiveString);
 						resultSet = ps.executeQuery();
 
 						if(resultSet.next())
@@ -397,6 +429,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			gameSequenceName = databaseResultSet.getString("gameSequenceName");
 			gameSequenceUUID = databaseResultSet.getString("gameSequenceUUID");
 			difficultyName = databaseResultSet.getString("difficultyName");
+			objectiveString = databaseResultSet.getString("objectiveString");
 
 			if(userName==null)userName = "";
 			if(isGameTypeOrSequence==null)isGameTypeOrSequence = "";
@@ -405,6 +438,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			if(gameSequenceName==null)gameSequenceName = "";
 			if(gameSequenceUUID==null)gameSequenceUUID = "";
 			if(difficultyName==null)difficultyName = "";
+			if(objectiveString==null)objectiveString = "";
 
 
 
@@ -462,6 +496,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		gameSaveString+=",gameSequenceName:"+            			"`"+gameSequenceName+"`";
 		gameSaveString+=",gameSequenceUUID:"+            			"`"+gameSequenceUUID+"`";
 		gameSaveString+=",difficultyName:"+            			"`"+difficultyName+"`";
+		gameSaveString+=",objectiveString:"+            			"`"+objectiveString+"`";
 
 
 		gameSaveString+=","+"totalGamesPlayed"+":"+totalGamesPlayed;
@@ -555,10 +590,15 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		t = s.substring(0, s.indexOf('`'));
 		if(t.length()>0)gameSequenceUUID = t;
 		s = s.substring(s.indexOf('`')+1);
-
+		
 		s = s.substring(s.indexOf('`')+1);
 		t = s.substring(0, s.indexOf('`'));
 		if(t.length()>0)difficultyName = t;
+		s = s.substring(s.indexOf('`')+1);
+
+		s = s.substring(s.indexOf('`')+1);
+		t = s.substring(0, s.indexOf('`'));
+		if(t.length()>0)objectiveString = t;
 		s = s.substring(s.indexOf('`')+1);
 
 
@@ -720,6 +760,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		query += "gameSequenceName"+" = ? , ";
 		query += "gameSequenceUUID"+" = ? , ";
 		query += "difficultyName"+" = ? , ";
+		query += "objectiveString"+" = ? , ";
 
 		query += "totalGamesPlayed"+" = ? , ";
 		query += "singlePlayerGamesPlayed"+" = ? , ";
@@ -762,6 +803,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			ps.setString(++n, gameSequenceName);
 			ps.setString(++n, gameSequenceUUID);
 			ps.setString(++n, difficultyName);
+			ps.setString(++n, objectiveString);
 
 			ps.setInt(++n, totalGamesPlayed);
 			ps.setInt(++n, singlePlayerGamesPlayed);
@@ -842,6 +884,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		query += "gameSequenceName"+" = ? , ";
 		query += "gameSequenceUUID"+" = ? , ";
 		query += "difficultyName"+" = ? , ";
+		query += "objectiveString"+" = ? , ";
 
 		query += "totalGamesPlayed"+" = ? , ";
 		query += "singlePlayerGamesPlayed"+" = ? , ";
@@ -871,7 +914,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 
 
-		query += "WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ?";
+		query += "WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ? AND objectiveString = ?";
 
 		{
 
@@ -889,6 +932,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				ps.setString(++n, gameSequenceName);
 				ps.setString(++n, gameSequenceUUID);
 				ps.setString(++n, difficultyName);
+				ps.setString(++n, objectiveString);
 
 				ps.setInt(++n, totalGamesPlayed);
 				ps.setInt(++n, singlePlayerGamesPlayed);
@@ -920,6 +964,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				ps.setLong(++n, userID);
 				ps.setString(++n, uuid);
 				ps.setString(++n, difficultyName);
+				ps.setString(++n, objectiveString);
 				ps.executeUpdate();
 
 				ps.close();
