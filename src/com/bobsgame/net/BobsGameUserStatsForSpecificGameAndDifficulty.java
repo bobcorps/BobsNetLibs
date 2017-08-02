@@ -151,7 +151,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				ps = databaseConnection.prepareStatement(
 						"SELECT " +
 						"* " +
-						"FROM "+BobNet.Bobs_Game_User_Stats_For_Specific_Game_And_Difficulty_DB_Name+" WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ?  AND objectiveString = ?");
+						"FROM "+BobNet.Bobs_Game_User_Stats_For_Specific_Game_And_Difficulty_DB_Name+" WHERE userID = ? AND "+gameTypeOrSequenceQueryString+" AND difficultyName = ? AND objectiveString = ?");
 
 
 				int n = 0;
