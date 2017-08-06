@@ -44,6 +44,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 	public long totalTimePlayed = 0;
 	public long longestGameLength = 0;
 	public long averageGameLength = 0;
+	public long fastestClearedLength = 0;
 	public double eloScore = 0;
 	public long firstTimePlayed = 0;
 	public long lastTimePlayed = 0;
@@ -60,6 +61,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 	public int mostBlocksCleared = 0;
 	public String longestTimeStatsUUID = "";
+	public String fastestTimeClearedStatsUUID = "";
 	public String mostBlocksClearedStatsUUID = "";
 
 
@@ -222,6 +224,12 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		{
 			longestGameLength = game.timeLasted;
 			longestTimeStatsUUID = game.statsUUID;
+		}
+		
+		if(game.complete==1 && game.timeLasted < fastestClearedLength)
+		{
+			fastestClearedLength = game.timeLasted;
+			fastestTimeClearedStatsUUID = game.statsUUID;
 		}
 
 		averageGameLength = totalTimePlayed / totalGamesPlayed;
@@ -409,6 +417,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 			score.mostBlocksClearedThisGameAndDifficulty = mostBlocksCleared;
 			score.longestTimeLastedThisGameAndDifficulty = longestGameLength;
+			score.fastestTimeClearedThisGameAndDifficulty = fastestClearedLength;
 		}
 
 		return true;
@@ -455,6 +464,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			totalTimePlayed = databaseResultSet.getLong("totalTimePlayed");
 			longestGameLength = databaseResultSet.getLong("longestGameLength");
 			averageGameLength = databaseResultSet.getLong("averageGameLength");
+			fastestClearedLength = databaseResultSet.getLong("fastestClearedLength");
 			eloScore = databaseResultSet.getDouble("eloScore");
 			firstTimePlayed = databaseResultSet.getLong("firstTimePlayed");
 			lastTimePlayed = databaseResultSet.getLong("lastTimePlayed");
@@ -467,9 +477,11 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			biggestCombo = databaseResultSet.getInt("biggestCombo");
 			mostBlocksCleared = databaseResultSet.getInt("mostBlocksCleared");
 			longestTimeStatsUUID = databaseResultSet.getString("longestTimeStatsUUID");
+			fastestTimeClearedStatsUUID = databaseResultSet.getString("fastestTimeClearedStatsUUID");
 			mostBlocksClearedStatsUUID = databaseResultSet.getString("mostBlocksClearedStatsUUID");
 
 			if(longestTimeStatsUUID==null)longestTimeStatsUUID = "";
+			if(fastestTimeClearedStatsUUID==null)fastestTimeClearedStatsUUID = "";
 			if(mostBlocksClearedStatsUUID==null)mostBlocksClearedStatsUUID = "";
 
 
@@ -511,6 +523,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		gameSaveString+=","+"totalTimePlayed"+":"+totalTimePlayed;
 		gameSaveString+=","+"longestGameLength"+":"+longestGameLength;
 		gameSaveString+=","+"averageGameLength"+":"+averageGameLength;
+		gameSaveString+=","+"fastestClearedLength"+":"+fastestClearedLength;
 		gameSaveString+=","+"eloScore"+":"+eloScore;
 		gameSaveString+=","+"firstTimePlayed"+":"+firstTimePlayed;
 		gameSaveString+=","+"lastTimePlayed"+":"+lastTimePlayed;
@@ -523,6 +536,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		gameSaveString+=","+"biggestCombo"+":"+biggestCombo;
 		gameSaveString+=","+"mostBlocksCleared"+":"+mostBlocksCleared;
 		gameSaveString+=","+"longestTimeStatsUUID"+":"+longestTimeStatsUUID;
+		gameSaveString+=","+"fastestTimeClearedStatsUUID"+":"+fastestTimeClearedStatsUUID;
 		gameSaveString+=","+"mostBlocksClearedStatsUUID"+":"+mostBlocksClearedStatsUUID;
 
 
@@ -658,10 +672,15 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			t = s.substring(0, s.indexOf(','));
 			if(t.length()>0)try{longestGameLength = Long.parseLong(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
 			s = s.substring(s.indexOf(',')+1);
-
+			
 			s = s.substring(s.indexOf(':')+1);
 			t = s.substring(0, s.indexOf(','));
 			if(t.length()>0)try{averageGameLength = Long.parseLong(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
+			s = s.substring(s.indexOf(',')+1);
+
+			s = s.substring(s.indexOf(':')+1);
+			t = s.substring(0, s.indexOf(','));
+			if(t.length()>0)try{fastestClearedLength = Long.parseLong(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
 			s = s.substring(s.indexOf(',')+1);
 
 			s = s.substring(s.indexOf(':')+1);
@@ -725,10 +744,15 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			t = s.substring(0, s.indexOf(','));
 			if(t.length()>0)try{mostBlocksCleared = Integer.parseInt(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
 			s = s.substring(s.indexOf(',')+1);
-
+			
 			s = s.substring(s.indexOf(':')+1);
 			t = s.substring(0, s.indexOf(','));
 			if(t.length()>0)longestTimeStatsUUID = t;
+			s = s.substring(s.indexOf(',')+1);
+
+			s = s.substring(s.indexOf(':')+1);
+			t = s.substring(0, s.indexOf(','));
+			if(t.length()>0)fastestTimeClearedStatsUUID = t;
 			s = s.substring(s.indexOf(',')+1);
 
 			s = s.substring(s.indexOf(':')+1);
@@ -774,6 +798,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		query += "totalTimePlayed"+" = ? , ";
 		query += "longestGameLength"+" = ? , ";
 		query += "averageGameLength"+" = ? , ";
+		query += "fastestClearedLength"+" = ? , ";
 		query += "eloScore"+" = ? , ";
 		query += "firstTimePlayed"+" = ? , ";
 		query += "lastTimePlayed"+" = ? , ";
@@ -786,6 +811,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		query += "biggestCombo"+" = ? , ";
 		query += "mostBlocksCleared"+" = ? , ";
 		query += "longestTimeStatsUUID"+" = ? , ";
+		query += "fastestTimeClearedStatsUUID"+" = ? , ";
 		query += "mostBlocksClearedStatsUUID"+" = ? ";
 
 
@@ -817,6 +843,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			ps.setLong(++n, totalTimePlayed);
 			ps.setLong(++n, longestGameLength);
 			ps.setLong(++n, averageGameLength);
+			ps.setLong(++n, fastestClearedLength);
 			ps.setDouble(++n, eloScore);
 			ps.setLong(++n, firstTimePlayed);
 			ps.setLong(++n, lastTimePlayed);
@@ -829,6 +856,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			ps.setInt(++n, biggestCombo);
 			ps.setInt(++n, mostBlocksCleared);
 			ps.setString(++n, longestTimeStatsUUID);
+			ps.setString(++n, fastestTimeClearedStatsUUID);
 			ps.setString(++n, mostBlocksClearedStatsUUID);
 
 
@@ -898,6 +926,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		query += "totalTimePlayed"+" = ? , ";
 		query += "longestGameLength"+" = ? , ";
 		query += "averageGameLength"+" = ? , ";
+		query += "fastestClearedLength"+" = ? , ";
 		query += "eloScore"+" = ? , ";
 		query += "firstTimePlayed"+" = ? , ";
 		query += "lastTimePlayed"+" = ? , ";
@@ -910,6 +939,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		query += "biggestCombo"+" = ? , ";
 		query += "mostBlocksCleared"+" = ? , ";
 		query += "longestTimeStatsUUID"+" = ? , ";
+		query += "fastestTimeClearedStatsUUID"+" = ? , ";
 		query += "mostBlocksClearedStatsUUID"+" = ? ";
 
 
@@ -946,6 +976,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				ps.setLong(++n, totalTimePlayed);
 				ps.setLong(++n, longestGameLength);
 				ps.setLong(++n, averageGameLength);
+				ps.setLong(++n, fastestClearedLength);
 				ps.setDouble(++n, eloScore);
 				ps.setLong(++n, firstTimePlayed);
 				ps.setLong(++n, lastTimePlayed);
@@ -958,6 +989,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 				ps.setInt(++n, biggestCombo);
 				ps.setInt(++n, mostBlocksCleared);
 				ps.setString(++n, longestTimeStatsUUID);
+				ps.setString(++n, fastestTimeClearedStatsUUID);
 				ps.setString(++n, mostBlocksClearedStatsUUID);
 
 

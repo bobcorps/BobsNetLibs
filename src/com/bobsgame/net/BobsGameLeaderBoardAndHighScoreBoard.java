@@ -60,6 +60,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 		public int mostBlocksClearedThisGameAndDifficulty = 0;
 		public long longestTimeLastedThisGameAndDifficulty = 0;
+		public long fastestTimeClearedThisGameAndDifficulty = 0;
 	}
 
 
@@ -94,6 +95,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		public int singlePlayerHighestLevelReached = 0;
 		public long totalTimePlayed = 0;
 		public long longestGameLength = 0;
+		public long fastestClearedLength = 0;
 		public long firstTimePlayed = 0;
 		public long lastTimePlayed = 0;
 		public long timeRecordSet = 0;
@@ -826,6 +828,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				newEntry.singlePlayerHighestLevelReached = stats.singlePlayerHighestLevelReached;
 				newEntry.totalTimePlayed = stats.totalTimePlayed;
 				newEntry.longestGameLength = stats.longestGameLength;
+				newEntry.fastestClearedLength = stats.fastestClearedLength;
 				newEntry.firstTimePlayed = stats.firstTimePlayed;
 				newEntry.lastTimePlayed = System.currentTimeMillis();;
 				//newStats.timeRecordSet = stats.timeRecordSet;
@@ -859,6 +862,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				newEntry.singlePlayerHighestLevelReached = stats.singlePlayerHighestLevelReached;
 				newEntry.totalTimePlayed = stats.totalTimePlayed;
 				newEntry.longestGameLength = stats.longestGameLength;
+				newEntry.fastestClearedLength = stats.fastestClearedLength;
 				newEntry.firstTimePlayed = stats.firstTimePlayed;
 				newEntry.lastTimePlayed = System.currentTimeMillis();;
 				//newStats.timeRecordSet = stats.timeRecordSet;
@@ -948,13 +952,28 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 			if(compareTimeLasted)
 			{
-				if(score.longestTimeLastedThisGameAndDifficulty>existingEntry.longestGameLength)
+				if(game.endlessMode==1) 
 				{
-					replaceScore = true;
-
-					newEntry.longestGameLength = score.longestTimeLastedThisGameAndDifficulty;
-
+					
+					if(score.longestTimeLastedThisGameAndDifficulty>existingEntry.longestGameLength)
+					{
+						replaceScore = true;
+	
+						newEntry.longestGameLength = score.longestTimeLastedThisGameAndDifficulty;
+	
+					}				
 				}
+				else
+				{
+					if(score.fastestTimeClearedThisGameAndDifficulty<existingEntry.fastestClearedLength)
+					{
+						replaceScore = true;
+	
+						newEntry.fastestClearedLength = score.fastestTimeClearedThisGameAndDifficulty;
+	
+					}					
+				}
+
 			}
 
 			if(compareTotalBlocksCleared)
@@ -1105,6 +1124,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				s.singlePlayerHighestLevelReached = databaseResultSet.getInt("singlePlayerHighestLevelReached"+num);
 				s.totalTimePlayed = databaseResultSet.getLong("totalTimePlayed"+num);
 				s.longestGameLength = databaseResultSet.getLong("longestGameLength"+num);
+				s.fastestClearedLength = databaseResultSet.getLong("fastestClearedLength"+num);
 				s.firstTimePlayed = databaseResultSet.getLong("firstTimePlayed"+num);
 				s.lastTimePlayed = databaseResultSet.getLong("lastTimePlayed"+num);
 				s.timeRecordSet = databaseResultSet.getLong("timeRecordSet"+num);
@@ -1162,6 +1182,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			gameSaveString+=","+"singlePlayerHighestLevelReached"+num+":"+s.singlePlayerHighestLevelReached;
 			gameSaveString+=","+"totalTimePlayed"+num+":"+s.totalTimePlayed;
 			gameSaveString+=","+"longestGameLength"+num+":"+s.longestGameLength;
+			gameSaveString+=","+"fastestClearedLength"+num+":"+s.fastestClearedLength;
 			gameSaveString+=","+"firstTimePlayed"+num+":"+s.firstTimePlayed;
 			gameSaveString+=","+"lastTimePlayed"+num+":"+s.lastTimePlayed;
 			gameSaveString+=","+"timeRecordSet"+num+":"+s.timeRecordSet;
@@ -1313,10 +1334,15 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			if(t.length()>0)try{stats.totalTimePlayed = Long.parseLong(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
 			s = s.substring(s.indexOf(',')+1);
 
-
+			
 			s = s.substring(s.indexOf(':')+1);
 			t = s.substring(0, s.indexOf(','));
 			if(t.length()>0)try{stats.longestGameLength = Long.parseLong(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
+			s = s.substring(s.indexOf(',')+1);
+
+			s = s.substring(s.indexOf(':')+1);
+			t = s.substring(0, s.indexOf(','));
+			if(t.length()>0)try{stats.fastestClearedLength = Long.parseLong(t);}catch(NumberFormatException ex){ex.printStackTrace();return;}
 			s = s.substring(s.indexOf(',')+1);
 
 
@@ -1418,6 +1444,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			query += "singlePlayerHighestLevelReached"+num+" = ? , ";
 			query += "totalTimePlayed"+num+" = ? , ";
 			query += "longestGameLength"+num+" = ? , ";
+			query += "fastestClearedLength"+num+" = ? , ";
 			query += "firstTimePlayed"+num+" = ? , ";
 			query += "lastTimePlayed"+num+" = ? , ";
 			query += "timeRecordSet"+num+" = ? , ";
@@ -1465,6 +1492,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				ps.setInt(++n, diffStats.singlePlayerHighestLevelReached);
 				ps.setLong(++n, diffStats.totalTimePlayed);
 				ps.setLong(++n, diffStats.longestGameLength);
+				ps.setLong(++n, diffStats.fastestClearedLength);
 				ps.setLong(++n, diffStats.firstTimePlayed);
 				ps.setLong(++n, diffStats.lastTimePlayed);
 				ps.setLong(++n, diffStats.timeRecordSet);
@@ -1542,6 +1570,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			query += "singlePlayerHighestLevelReached"+num+" = ? , ";
 			query += "totalTimePlayed"+num+" = ? , ";
 			query += "longestGameLength"+num+" = ? , ";
+			query += "fastestClearedLength"+num+" = ? , ";
 			query += "firstTimePlayed"+num+" = ? , ";
 			query += "lastTimePlayed"+num+" = ? , ";
 			query += "timeRecordSet"+num+" = ? , ";
@@ -1584,6 +1613,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 					ps.setInt(++n, diffStats.singlePlayerHighestLevelReached);
 					ps.setLong(++n, diffStats.totalTimePlayed);
 					ps.setLong(++n, diffStats.longestGameLength);
+					ps.setLong(++n, diffStats.fastestClearedLength);
 					ps.setLong(++n, diffStats.firstTimePlayed);
 					ps.setLong(++n, diffStats.lastTimePlayed);
 					ps.setLong(++n, diffStats.timeRecordSet);
