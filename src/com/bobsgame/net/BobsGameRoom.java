@@ -109,8 +109,8 @@ public class BobsGameRoom
 			"," + (multiplayer_GarbageScaleByDifficulty) +
 			"," + (multiplayer_SendGarbageTo) +
 			"," + (floorSpinLimit) +
-			"," + (lockDelayDecreaseMultiplier) +
 			"," + (lockDelayLimit) +
+			"," + (lockDelayDecreaseMultiplier) +
 			"," + (lockDelayMinimum) +
 			"," + (stackWaitLimit) +
 
@@ -201,10 +201,13 @@ public class BobsGameRoom
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_FloorSpinLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
-		String multiplayer_LockDelayDecreaseMultiplierString = s.substring(0, s.indexOf(","));
-		s = s.substring(s.indexOf(",") + 1);
+		
 		String multiplayer_LockDelayLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
+		
+		String multiplayer_LockDelayDecreaseMultiplierString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+
 		String multiplayer_LockDelayMinimumString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 		String multiplayer_StackWaitLimitString = s.substring(0, s.indexOf(","));
@@ -214,8 +217,7 @@ public class BobsGameRoom
 		String multiplayer_SpawnDelayLimitString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 
-		String multiplayer_DropDelayMinimumString = s.substring(0, s.indexOf(","));
-		s = s.substring(s.indexOf(",") + 1);
+
 
 		String multiplayer_SpawnDelayDecreaseRateString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
@@ -223,7 +225,8 @@ public class BobsGameRoom
 		String multiplayer_SpawnDelayMinimumString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 
-
+		String multiplayer_DropDelayMinimumString = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
 
 
 		BobsGameRoom newRoom = new BobsGameRoom();
@@ -239,6 +242,7 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("hostUserID could not be parsed");
+			e.printStackTrace();
 			return null;
 		}
 		newRoom.hostUserID = hostUserID;
@@ -310,7 +314,7 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("Could not parse endlessMode");
-			return null;
+			//return null;
 		}
 
 
@@ -321,7 +325,7 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("Could not parse multiplayer_AllowDifferentDifficulties");
-			return null;
+			//return null;
 		}
 
 
@@ -333,7 +337,7 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("Could not parse multiplayer_AllowDifferentGameSequences");
-			return null;
+			//return null;
 		}
 
 		try
@@ -343,7 +347,7 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("Could not parse multiplayer_GameEndsWhenAllOpponentsLose");
-			return null;
+			//return null;
 		}
 
 		try
@@ -353,7 +357,7 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("Could not parse multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel");
-			return null;
+			//return null;
 		}
 
 		try
@@ -363,53 +367,221 @@ public class BobsGameRoom
 		catch (Exception e)
 		{
 			log.error("Could not parse multiplayer_DisableVSGarbage");
-			return null;
+			//return null;
 		}
 
-
-
-
-
+		
 		try
 		{
-
 			newRoom.gameSpeedStart							 = Float.parseFloat(gameSpeedStartString);
-			newRoom.gameSpeedIncreaseRate					 = Float.parseFloat(gameSpeedIncreaseRateString);
-			newRoom.gameSpeedMaximum						 = Float.parseFloat(gameSpeedMaximumString);
-			newRoom.levelUpMultiplier						 = Float.parseFloat(levelUpMultiplierString);
-			newRoom.levelUpCompoundMultiplier				 = Float.parseFloat(levelUpCompoundMultiplierString);
-			newRoom.multiplayer_AllowNewPlayersDuringGame	 = Integer.parseInt(multiplayer_AllowNewPlayersDuringGameString);
-			newRoom.multiplayer_UseTeams					 = Integer.parseInt(multiplayer_UseTeamsString);
-			newRoom.multiplayer_GarbageMultiplier			 = Float.parseFloat(multiplayer_GarbageMultiplierString);
-			newRoom.multiplayer_GarbageLimit				 = Integer.parseInt(multiplayer_GarbageLimitString);
-			newRoom.multiplayer_GarbageScaleByDifficulty	 = Integer.parseInt(multiplayer_GarbageScaleByDifficultyString);
-			newRoom.multiplayer_SendGarbageTo				 = Integer.parseInt(multiplayer_SendGarbageToString);
-			newRoom.floorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
-			newRoom.lockDelayDecreaseMultiplier	 = Float.parseFloat(multiplayer_LockDelayDecreaseMultiplierString);
-			newRoom.lockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
-			newRoom.lockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
-			newRoom.stackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
-
-			newRoom.spawnDelayLimit			 	 = Integer.parseInt(multiplayer_SpawnDelayLimitString);
-			newRoom.spawnDelayDecreaseRate		 = Float.parseFloat(multiplayer_SpawnDelayDecreaseRateString);
-			newRoom.spawnDelayMinimum			 = Integer.parseInt(multiplayer_SpawnDelayMinimumString);
-			newRoom.dropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
-
-
-
 		}
 		catch (Exception e)
 		{
-			log.error("Could not parse room options");
-			return null;
+			log.error("Could not parse gameSpeedStart");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.gameSpeedIncreaseRate					 = Float.parseFloat(gameSpeedIncreaseRateString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse gameSpeedIncreaseRate");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.gameSpeedMaximum						 = Float.parseFloat(gameSpeedMaximumString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse gameSpeedMaximum");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.levelUpMultiplier						 = Float.parseFloat(levelUpMultiplierString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse levelUpMultiplier");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.levelUpCompoundMultiplier				 = Float.parseFloat(levelUpCompoundMultiplierString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse levelUpCompoundMultiplier");
+			//return null;
 		}
 
+		try
+		{
+			newRoom.multiplayer_AllowNewPlayersDuringGame	 = Integer.parseInt(multiplayer_AllowNewPlayersDuringGameString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse multiplayer_AllowNewPlayersDuringGame");
+			//return null;
+		}
 
+		try
+		{
+			newRoom.multiplayer_UseTeams					 = Integer.parseInt(multiplayer_UseTeamsString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse multiplayer_UseTeams");
+			//return null;
+		}
 
+		try
+		{
+			newRoom.multiplayer_GarbageMultiplier			 = Float.parseFloat(multiplayer_GarbageMultiplierString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse multiplayer_GarbageMultiplier");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.multiplayer_GarbageLimit				 = Integer.parseInt(multiplayer_GarbageLimitString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse multiplayer_GarbageLimit");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.multiplayer_GarbageScaleByDifficulty	 = Integer.parseInt(multiplayer_GarbageScaleByDifficultyString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse multiplayer_GarbageScaleByDifficulty");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.multiplayer_SendGarbageTo				 = Integer.parseInt(multiplayer_SendGarbageToString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse multiplayer_SendGarbageTo");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.floorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse floorSpinLimit");
+			//return null;
+		}
+		
+		try
+		{
+			//if(multiplayer_LockDelayLimitString.equals("-1")) {newRoom.lockDelayLimit=-1;}
+			//else
+			newRoom.lockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse lockDelayLimit");
+			//return null;
+		}
+		
+		
+		try
+		{
+			newRoom.lockDelayDecreaseMultiplier	 = Float.parseFloat(multiplayer_LockDelayDecreaseMultiplierString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse lockDelayDecreaseMultiplier");
+			//return null;
+		}
+		
 
-
-
-
+		try
+		{
+			newRoom.lockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse lockDelayMinimum");
+			//return null;
+		}
+		
+		
+		try
+		{
+			newRoom.stackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse stackWaitLimit");
+			//return null;
+		}
+		
+		
+		try
+		{
+			newRoom.spawnDelayLimit			 	 = Integer.parseInt(multiplayer_SpawnDelayLimitString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse spawnDelayLimit");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.spawnDelayDecreaseRate		 = Float.parseFloat(multiplayer_SpawnDelayDecreaseRateString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse spawnDelayDecreaseRate");
+			//return null;
+		}
+		
+		try
+		{
+			newRoom.spawnDelayMinimum			 = Integer.parseInt(multiplayer_SpawnDelayMinimumString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse spawnDelayMinimum");
+			//return null;
+		}
+		
+		
+		try
+		{
+			//if(multiplayer_DropDelayMinimumString.equals("-1")) {newRoom.dropDelayMinimum=-1;}
+			//else
+			newRoom.dropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
+		}
+		catch (Exception e)
+		{
+			log.error("Could not parse dropDelayMinimum");
+			//return null;
+		}
+		
+		
+		
 		return newRoom;
 	}
 
