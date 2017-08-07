@@ -1169,8 +1169,8 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			BobsGameLeaderBoardAndHighScoreBoardEntry s = entries.get(i);
 
 
-			gameSaveString+=",userName:"+            			"`"+s.userName+"`";
-			gameSaveString+=",userID:"+            			"`"+s.userID+"`";
+			gameSaveString+=",userName"+num+":"+            			"`"+s.userName+"`";
+			gameSaveString+=",userID"+num+":"+            			"`"+s.userID+"`";
 			gameSaveString+=","+"totalGamesPlayed"+num+":"+s.totalGamesPlayed;
 			gameSaveString+=","+"singlePlayerGamesPlayed"+num+":"+s.singlePlayerGamesPlayed;
 			gameSaveString+=","+"tournamentGamesPlayed"+num+":"+s.tournamentGamesPlayed;
