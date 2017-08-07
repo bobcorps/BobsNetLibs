@@ -226,7 +226,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			longestTimeStatsUUID = game.statsUUID;
 		}
 		
-		if(game.complete==1 && game.timeLasted < fastestClearedLength)
+		if(game.complete==1 && (game.timeLasted < fastestClearedLength || fastestClearedLength == 0))
 		{
 			fastestClearedLength = game.timeLasted;
 			fastestTimeClearedStatsUUID = game.statsUUID;
