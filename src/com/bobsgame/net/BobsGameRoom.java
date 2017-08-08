@@ -65,13 +65,13 @@ public class BobsGameRoom
 	public int multiplayer_GarbageScaleByDifficulty = 1;//scale garbage by difficulty, beginner->insane 2x, insane->beginner 0.5x, etc.
 	public int multiplayer_SendGarbageTo = 0;
 	
-	public int floorSpinLimit = 0;
-	public int totalYLockDelayLimit = 0;
+	public int floorSpinLimit = -1;
+	public int totalYLockDelayLimit = -1;
 	public float lockDelayDecreaseRate = 0;
 	public int lockDelayMinimum = 0;
 	
-	public int stackWaitLimit = 0;
-	public int spawnDelayLimit = 0;
+	public int stackWaitLimit = -1;
+	public int spawnDelayLimit = -1;
 	public float spawnDelayDecreaseRate = 0;
 	public int spawnDelayMinimum = 0;
 	public int dropDelayMinimum = 0;
@@ -294,26 +294,26 @@ public class BobsGameRoom
 
 		BobsGameRoom r = new BobsGameRoom();
 
-		if(this.gameSpeedStart != r.gameSpeedStart)return false;
-		if(this.gameSpeedChangeRate != r.gameSpeedChangeRate)return false;
-		if(this.gameSpeedMaximum != r.gameSpeedMaximum)return false;
-		if(this.levelUpMultiplier != r.levelUpMultiplier)return false;
-		if(this.levelUpCompoundMultiplier != r.levelUpCompoundMultiplier)return false;
-		if(this.multiplayer_AllowNewPlayersDuringGame != r.multiplayer_AllowNewPlayersDuringGame)return false;
-		if(this.multiplayer_UseTeams != r.multiplayer_UseTeams)return false;
-		if(this.multiplayer_GarbageMultiplier != r.multiplayer_GarbageMultiplier)return false;
-		if(this.multiplayer_GarbageLimit != r.multiplayer_GarbageLimit)return false;
-		if(this.multiplayer_GarbageScaleByDifficulty != r.multiplayer_GarbageScaleByDifficulty)return false;
-		if(this.multiplayer_SendGarbageTo != r.multiplayer_SendGarbageTo)return false;
-		if(this.floorSpinLimit != r.floorSpinLimit)return false;
-		if(this.totalYLockDelayLimit != r.totalYLockDelayLimit)return false;
-		if(this.lockDelayDecreaseRate != r.lockDelayDecreaseRate)return false;
-		if(this.lockDelayMinimum != r.lockDelayMinimum)return false;
-		if(this.stackWaitLimit != r.stackWaitLimit)return false;
-		if(this.spawnDelayLimit != r.spawnDelayLimit)return false;
-		if(this.spawnDelayDecreaseRate != r.spawnDelayDecreaseRate)return false;
-		if(this.spawnDelayMinimum != r.spawnDelayMinimum)return false;
-		if(this.dropDelayMinimum != r.dropDelayMinimum)return false;
+		if(this.gameSpeedStart != r.gameSpeedStart) {log.error(""+this.gameSpeedStart+" "+r.gameSpeedStart);return false;}
+		if(this.gameSpeedChangeRate != r.gameSpeedChangeRate)  {log.error(""+this.gameSpeedChangeRate+" "+r.gameSpeedChangeRate);return false;}
+		if(this.gameSpeedMaximum != r.gameSpeedMaximum) {log.error(""+this.gameSpeedMaximum+" "+r.gameSpeedMaximum);return false;}
+		if(this.levelUpMultiplier != r.levelUpMultiplier) {log.error(""+this.levelUpMultiplier+" "+r.levelUpMultiplier);return false;}
+		if(this.levelUpCompoundMultiplier != r.levelUpCompoundMultiplier) {log.error(""+this.levelUpCompoundMultiplier+" "+r.levelUpCompoundMultiplier);return false;}
+		if(this.multiplayer_AllowNewPlayersDuringGame != r.multiplayer_AllowNewPlayersDuringGame) {log.error(""+this.multiplayer_AllowNewPlayersDuringGame+" "+r.multiplayer_AllowNewPlayersDuringGame);return false;}
+		if(this.multiplayer_UseTeams != r.multiplayer_UseTeams) {log.error(""+this.multiplayer_UseTeams+" "+r.multiplayer_UseTeams);return false;}
+		if(this.multiplayer_GarbageMultiplier != r.multiplayer_GarbageMultiplier) {log.error(""+this.multiplayer_GarbageMultiplier+" "+r.multiplayer_GarbageMultiplier);return false;}
+		if(this.multiplayer_GarbageLimit != r.multiplayer_GarbageLimit) {log.error(""+this.multiplayer_GarbageLimit+" "+r.multiplayer_GarbageLimit);return false;}
+		if(this.multiplayer_GarbageScaleByDifficulty != r.multiplayer_GarbageScaleByDifficulty) {log.error(""+this.multiplayer_GarbageScaleByDifficulty+" "+r.multiplayer_GarbageScaleByDifficulty);return false;}
+		if(this.multiplayer_SendGarbageTo != r.multiplayer_SendGarbageTo) {log.error(""+this.multiplayer_SendGarbageTo+" "+r.multiplayer_SendGarbageTo);return false;}
+		if(this.floorSpinLimit != r.floorSpinLimit) {log.error(""+this.floorSpinLimit+" "+r.floorSpinLimit);return false;}
+		if(this.totalYLockDelayLimit != r.totalYLockDelayLimit) {log.error(""+this.totalYLockDelayLimit+" "+r.totalYLockDelayLimit);return false;}
+		if(this.lockDelayDecreaseRate != r.lockDelayDecreaseRate) {log.error(""+this.lockDelayDecreaseRate+" "+r.lockDelayDecreaseRate);return false;}
+		if(this.lockDelayMinimum != r.lockDelayMinimum) {log.error(""+this.lockDelayMinimum+" "+r.lockDelayMinimum);return false;}
+		if(this.stackWaitLimit != r.stackWaitLimit) {log.error(""+this.stackWaitLimit+" "+r.stackWaitLimit);return false;}
+		if(this.spawnDelayLimit != r.spawnDelayLimit) {log.error(""+this.spawnDelayLimit+" "+r.spawnDelayLimit);return false;}
+		if(this.spawnDelayDecreaseRate != r.spawnDelayDecreaseRate) {log.error(""+this.spawnDelayDecreaseRate+" "+r.spawnDelayDecreaseRate);return false;}
+		if(this.spawnDelayMinimum != r.spawnDelayMinimum) {log.error(""+this.spawnDelayMinimum+" "+r.spawnDelayMinimum);return false;}
+		if(this.dropDelayMinimum != r.dropDelayMinimum) {log.error(""+this.dropDelayMinimum+" "+r.dropDelayMinimum);return false;}
 
 		return true;
 	}
