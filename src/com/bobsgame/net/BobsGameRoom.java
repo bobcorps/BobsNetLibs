@@ -1,6 +1,9 @@
 
 package com.bobsgame.net;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
@@ -13,84 +16,337 @@ public class BobsGameRoom
 	public static Logger log = (Logger) LoggerFactory.getLogger(BobsGameRoom.class);
 
 
-	public int currentNumPlayers = 0;
-	public int maxPlayers = 0;
-	public int privateRoom = 0;
-	public int tournamentRoom = 0;
+	public long timeStarted = 0;
+	public long timeLastGotUpdate = 0;
+	
+
+	
+	
+	
 	public String uuid = "";
-	public long hostUserID = 0;
+	
+	public String room_IsGameSequenceOrType = "";
+	public String room_GameTypeName = "";
+	public String room_GameTypeUUID = "";
+	public String room_GameSequenceName = "";
+	public String room_GameSequenceUUID = "";
+	
+	
+	
+	public String room_DifficultyName = "Beginner";
+	
+	public int singleplayer_RandomizeSequence = 1;
+	
+	public int multiplayer_NumPlayers = 0;
+	public long multiplayer_HostUserID = 0;
+	
+	public int multiplayer_MaxPlayers = 0;
+	public int multiplayer_PrivateRoom = 0;
+	public int multiplayer_TournamentRoom = 0;
 	public int multiplayer_AllowDifferentDifficulties = 1;
 	public int multiplayer_AllowDifferentGameSequences = 1;
+	
+	public int endlessMode = 0;
 	public int multiplayer_GameEndsWhenOnePlayerRemains = 1;
 	public int multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = 1;
 	public int multiplayer_DisableVSGarbage = 0;
-	public String gameSequenceOrTypeName = "";
-	public String gameSequenceUUID = "";
-	public String gameTypeUUID = "";
-	public String difficultyName = "Beginner";
-	public int endlessMode = 0;
-	//public boolean isGameSequence = false;
-	//public boolean isGameType = false;
-	public long timeStarted = 0;
-	public long timeLastGotUpdate = 0;
-
-	public String isGameSequenceOrType = "";
-
-
 
 	public float gameSpeedStart = 0.01f;
-	public float gameSpeedIncreaseRate = 0.02f;
+	public float gameSpeedChangeRate = 0.02f;
 	public float gameSpeedMaximum = 1.0f;//can be 0.1 to 10.0 although that won't make sense
 	public float levelUpMultiplier = 1.0f;//can be negative
 	public float levelUpCompoundMultiplier = 1.0f;//can be negative
+	
 	public int multiplayer_AllowNewPlayersDuringGame = 0;
 	public int multiplayer_UseTeams = 0;
+	
 	public float multiplayer_GarbageMultiplier = 1.0f;
 	public int multiplayer_GarbageLimit = 0;
 	public int multiplayer_GarbageScaleByDifficulty = 1;//scale garbage by difficulty, beginner->insane 2x, insane->beginner 0.5x, etc.
-	public int multiplayer_SendGarbageTo = (int)0;
+	public int multiplayer_SendGarbageTo = 0;
+	
 	public int floorSpinLimit = 0;
-	public float lockDelayDecreaseMultiplier = 0;
-	public int lockDelayLimit = 0;
+	public int totalYLockDelayLimit = 0;
+	public float lockDelayDecreaseRate = 0;
 	public int lockDelayMinimum = 0;
+	
 	public int stackWaitLimit = 0;
-	//public int multiplayer_DropDelayLimit = 0;
 	public int spawnDelayLimit = 0;
 	public float spawnDelayDecreaseRate = 0;
 	public int spawnDelayMinimum = 0;
 	public int dropDelayMinimum = 0;
 
 	//=========================================================================================================================
+	public BobsGameRoom(String s)
+	{//=========================================================================================================================
+		decodeRoomData(s);
+	}
+
+	//=========================================================================================================================
+	public BobsGameRoom()
+	{//=========================================================================================================================
+
+	}
+	
+	
+	//=========================================================================================================================
+	public BobsGameRoom(ResultSet databaseResultSet)
+	{//=========================================================================================================================
+		try 
+		{
+			uuid = databaseResultSet.getString("uuid");
+			
+			room_IsGameSequenceOrType = databaseResultSet.getString("room_IsGameSequenceOrType");
+			room_GameTypeName = databaseResultSet.getString("room_GameTypeName");
+			room_GameTypeUUID = databaseResultSet.getString("room_GameTypeUUID");
+			room_GameSequenceName = databaseResultSet.getString("room_GameSequenceName");
+			room_GameSequenceUUID = databaseResultSet.getString("room_GameSequenceUUID");
+			room_DifficultyName = databaseResultSet.getString("room_DifficultyName");
+			
+			singleplayer_RandomizeSequence = databaseResultSet.getInt("singleplayer_RandomizeSequence");
+			
+			
+			multiplayer_NumPlayers = databaseResultSet.getInt("");
+			multiplayer_HostUserID = databaseResultSet.getLong("");
+			
+			multiplayer_MaxPlayers = databaseResultSet.getInt("");
+			multiplayer_PrivateRoom = databaseResultSet.getInt("");
+			multiplayer_TournamentRoom = databaseResultSet.getInt("");
+			multiplayer_AllowDifferentDifficulties = databaseResultSet.getInt("");
+			multiplayer_AllowDifferentGameSequences = databaseResultSet.getInt("");
+			
+			endlessMode = databaseResultSet.getInt("");
+			multiplayer_GameEndsWhenOnePlayerRemains = databaseResultSet.getInt("");
+			multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = databaseResultSet.getInt("");
+			multiplayer_DisableVSGarbage = databaseResultSet.getInt("");
+
+			gameSpeedStart = databaseResultSet.getFloat("");
+			gameSpeedChangeRate = databaseResultSet.getFloat("");
+			gameSpeedMaximum = databaseResultSet.getFloat("");
+			levelUpMultiplier = databaseResultSet.getFloat("");
+			levelUpCompoundMultiplier = databaseResultSet.getFloat("");
+			
+			multiplayer_AllowNewPlayersDuringGame = databaseResultSet.getInt("");
+			multiplayer_UseTeams = databaseResultSet.getInt("");
+			
+			multiplayer_GarbageMultiplier = databaseResultSet.getFloat("");
+			multiplayer_GarbageLimit = databaseResultSet.getInt("");
+			multiplayer_GarbageScaleByDifficulty = databaseResultSet.getInt("");
+			multiplayer_SendGarbageTo = databaseResultSet.getInt("");
+			
+			floorSpinLimit = databaseResultSet.getInt("");
+			totalYLockDelayLimit = databaseResultSet.getInt("");
+			lockDelayDecreaseRate = databaseResultSet.getFloat("");
+			lockDelayMinimum = databaseResultSet.getInt("");
+			
+			stackWaitLimit = databaseResultSet.getInt("");
+			spawnDelayLimit = databaseResultSet.getInt("");
+			spawnDelayDecreaseRate = databaseResultSet.getFloat("");
+			spawnDelayMinimum = databaseResultSet.getInt("");
+			dropDelayMinimum = databaseResultSet.getInt("");
+			
+			
+
+			if(uuid==null)uuid = "";	
+			if(room_IsGameSequenceOrType==null)room_IsGameSequenceOrType = "";	
+			if(room_GameTypeName==null)room_GameTypeName = "";	
+			if(room_GameTypeUUID==null)room_GameTypeUUID = "";	
+			if(room_GameSequenceName==null)room_GameSequenceName = "";	
+			if(room_GameSequenceUUID==null)room_GameSequenceUUID = "";	
+			if(room_DifficultyName==null)room_DifficultyName = "";		
+			
+		}
+		catch (Exception ex)
+		{
+			log.error("DB ERROR:"+ex.getMessage());
+		}
+	}
+	
+	//=========================================================================================================================
+	public String getDBVariables()
+	{//=========================================================================================================================
+
+		return 
+		"room_IsGameSequenceOrType, " +
+		"room_GameTypeName, " +
+		"room_GameTypeUUID, " +
+		"room_GameSequenceName, " +
+		"room_GameSequenceUUID, " +
+		
+		"room_DifficultyName, " +
+		"singleplayer_RandomizeSequence, " +
+		"multiplayer_NumPlayers, " +
+		"multiplayer_HostUserID, " +
+		"multiplayer_MaxPlayers, " +
+		
+		"multiplayer_PrivateRoom, " +
+		"multiplayer_TournamentRoom, " +
+		"multiplayer_AllowDifferentDifficulties, " +
+		"multiplayer_AllowDifferentGameSequences, " +
+		"endlessMode, " +
+		
+		"multiplayer_GameEndsWhenOnePlayerRemains, " +
+		"multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel, " +
+		"multiplayer_DisableVSGarbage, " +
+		"gameSpeedStart, " +
+		"gameSpeedChangeRate, " +
+		
+		"gameSpeedMaximum, " +
+		"levelUpMultiplier, " +
+		"levelUpCompoundMultiplier, " +
+		"multiplayer_AllowNewPlayersDuringGame, " +
+		"multiplayer_UseTeams, " +
+		
+		"multiplayer_GarbageMultiplier, " +
+		"multiplayer_GarbageLimit, " +
+		"multiplayer_GarbageScaleByDifficulty, " +
+		"multiplayer_SendGarbageTo, " +
+		"floorSpinLimit, " +
+		
+		"totalYLockDelayLimit, " +
+		"lockDelayDecreaseRate, " +
+		"lockDelayMinimum, " +
+		"stackWaitLimit, " +
+		"spawnDelayLimit, " +
+		
+		"spawnDelayDecreaseRate, " +
+		"spawnDelayMinimum, " +
+		"dropDelayMinimum, "
+		;
+	}
+	
+	//=========================================================================================================================
+	public String getDBQuestionMarks()
+	{//=========================================================================================================================
+		
+		return 
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ?, ?, ?, " +
+				"?, ?, ? "
+				;
+	}
+	
+	//=========================================================================================================================
+	public void setDBPreparedStatementVariables(int c,PreparedStatement ps)
+	{//=========================================================================================================================
+			
+		try
+		{
+			ps.setString(c++,room_IsGameSequenceOrType);
+			ps.setString(c++,room_GameTypeName);
+			ps.setString(c++,room_GameTypeUUID);
+			ps.setString(c++,room_GameSequenceName);
+			ps.setString(c++,room_GameSequenceUUID);
+			ps.setString(c++,room_DifficultyName);
+			ps.setInt(c++,singleplayer_RandomizeSequence);
+			
+			ps.setInt(c++,multiplayer_NumPlayers);
+			ps.setLong(c++,multiplayer_HostUserID);
+			
+			ps.setInt(c++,multiplayer_MaxPlayers);
+			ps.setInt(c++,multiplayer_PrivateRoom);
+			ps.setInt(c++,multiplayer_TournamentRoom);
+			ps.setInt(c++,multiplayer_AllowDifferentDifficulties);
+			ps.setInt(c++,multiplayer_AllowDifferentGameSequences);
+			
+			ps.setInt(c++,endlessMode);
+			ps.setInt(c++,multiplayer_GameEndsWhenOnePlayerRemains);
+			ps.setInt(c++,multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel);
+			ps.setInt(c++,multiplayer_DisableVSGarbage);
+	
+			ps.setFloat(c++,gameSpeedStart);
+			ps.setFloat(c++,gameSpeedChangeRate);
+			ps.setFloat(c++,gameSpeedMaximum);
+			ps.setFloat(c++,levelUpMultiplier);
+			ps.setFloat(c++,levelUpCompoundMultiplier);
+			
+			ps.setInt(c++,multiplayer_AllowNewPlayersDuringGame);
+			ps.setInt(c++,multiplayer_UseTeams);
+			
+			ps.setFloat(c++,multiplayer_GarbageMultiplier);
+			ps.setInt(c++,multiplayer_GarbageLimit);
+			ps.setInt(c++,multiplayer_GarbageScaleByDifficulty);
+			ps.setInt(c++,multiplayer_SendGarbageTo);
+			
+			ps.setInt(c++,floorSpinLimit);
+			ps.setInt(c++,totalYLockDelayLimit);
+			ps.setFloat(c++,lockDelayDecreaseRate);
+			ps.setInt(c++,lockDelayMinimum);
+			
+			ps.setInt(c++,stackWaitLimit);
+			ps.setInt(c++,spawnDelayLimit);
+			ps.setFloat(c++,spawnDelayDecreaseRate);
+			ps.setInt(c++,spawnDelayMinimum);
+			ps.setInt(c++,dropDelayMinimum);
+		}
+		catch (Exception ex){System.err.println("DB ERROR: "+ex.getMessage());}
+
+	}
+	
+	
+	//=========================================================================================================================
+	public boolean isDefaultSettings()
+	{//=========================================================================================================================
+
+		BobsGameRoom r = new BobsGameRoom();
+
+		if(this.gameSpeedStart != r.gameSpeedStart)return false;
+		if(this.gameSpeedChangeRate != r.gameSpeedChangeRate)return false;
+		if(this.gameSpeedMaximum != r.gameSpeedMaximum)return false;
+		if(this.levelUpMultiplier != r.levelUpMultiplier)return false;
+		if(this.levelUpCompoundMultiplier != r.levelUpCompoundMultiplier)return false;
+		if(this.multiplayer_AllowNewPlayersDuringGame != r.multiplayer_AllowNewPlayersDuringGame)return false;
+		if(this.multiplayer_UseTeams != r.multiplayer_UseTeams)return false;
+		if(this.multiplayer_GarbageMultiplier != r.multiplayer_GarbageMultiplier)return false;
+		if(this.multiplayer_GarbageLimit != r.multiplayer_GarbageLimit)return false;
+		if(this.multiplayer_GarbageScaleByDifficulty != r.multiplayer_GarbageScaleByDifficulty)return false;
+		if(this.multiplayer_SendGarbageTo != r.multiplayer_SendGarbageTo)return false;
+		if(this.floorSpinLimit != r.floorSpinLimit)return false;
+		if(this.totalYLockDelayLimit != r.totalYLockDelayLimit)return false;
+		if(this.lockDelayDecreaseRate != r.lockDelayDecreaseRate)return false;
+		if(this.lockDelayMinimum != r.lockDelayMinimum)return false;
+		if(this.stackWaitLimit != r.stackWaitLimit)return false;
+		if(this.spawnDelayLimit != r.spawnDelayLimit)return false;
+		if(this.spawnDelayDecreaseRate != r.spawnDelayDecreaseRate)return false;
+		if(this.spawnDelayMinimum != r.spawnDelayMinimum)return false;
+		if(this.dropDelayMinimum != r.dropDelayMinimum)return false;
+
+		return true;
+	}
+	
+	
+	//=========================================================================================================================
 	public String encodeRoomData()
 	{//=========================================================================================================================
 
 	//hostUserID,roomUUID,`gameSequenceOrTypeName`,isGameSequenceOrType,gameSequenceOrTypeUUID,usersInRoom,maxUsers,private,tournament,multiplayerOptions,
 		String s =
-			hostUserID +
+			multiplayer_HostUserID +
 			"," + uuid;
 
 
+		s += ","+	room_IsGameSequenceOrType;
+		s += ",`" + room_GameTypeName + "`";
+		s += "," + 	room_GameTypeUUID;
+		s += ",`" + room_GameSequenceName + "`";
+		s += "," + 	room_GameSequenceUUID;
+		s += "," + room_DifficultyName;
 
-			s += ",`" + gameSequenceOrTypeName + "`";
-
-			if (isGameSequenceOrType.equals("GameType"))
-			{
-				s += ",GameType," + gameTypeUUID;
-			}
-			else
-			{
-				s += ",GameSequence," + gameSequenceUUID;
-			}
 
 
 
 		s+=
 
-			"," + currentNumPlayers +
-			"," + maxPlayers +
-			"," + privateRoom +
-			"," + tournamentRoom +
-			"," + difficultyName +
+			"," + multiplayer_NumPlayers +
+			"," + multiplayer_MaxPlayers +
+			"," + multiplayer_PrivateRoom +
+			"," + multiplayer_TournamentRoom +
+			
 			"," + endlessMode +
 			"," + multiplayer_AllowDifferentDifficulties +
 			"," + multiplayer_AllowDifferentGameSequences +
@@ -99,7 +355,7 @@ public class BobsGameRoom
 			"," + multiplayer_DisableVSGarbage +
 
 			"," + (gameSpeedStart) +
-			"," + (gameSpeedIncreaseRate) +
+			"," + (gameSpeedChangeRate) +
 			"," + (gameSpeedMaximum) +
 			"," + (levelUpMultiplier) +
 			"," + (levelUpCompoundMultiplier) +
@@ -110,8 +366,8 @@ public class BobsGameRoom
 			"," + (multiplayer_GarbageScaleByDifficulty) +
 			"," + (multiplayer_SendGarbageTo) +
 			"," + (floorSpinLimit) +
-			"," + (lockDelayLimit) +
-			"," + (lockDelayDecreaseMultiplier) +
+			"," + (totalYLockDelayLimit) +
+			"," + (lockDelayDecreaseRate) +
 			"," + (lockDelayMinimum) +
 			"," + (stackWaitLimit) +
 
@@ -127,24 +383,49 @@ public class BobsGameRoom
 		return s;
 	}
 
-
+//	
+//	//=========================================================================================================================
+//	public BobsGameRoom decodeRoomData(String s)
+//	{//=========================================================================================================================
+//
+//		BobsGameRoom room = new BobsGameRoom();
+//		room.decodeRoomData(s);
+//	}
+//	
 	//=========================================================================================================================
-	public BobsGameRoom decodeRoomData(String s)
+	public void decodeRoomData(String s)
 	{//=========================================================================================================================
 
 
 		String hostUserIDString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
-		String roomUUID = s.substring(0, s.indexOf(","));
+		uuid = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
+		
+		
+		room_IsGameSequenceOrType = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		
 		s = s.substring(s.indexOf("`") + 1);
-		String gameSequenceOrTypeName = s.substring(0, s.indexOf("`"));
+		room_GameTypeName = s.substring(0, s.indexOf("`"));
 		s = s.substring(s.indexOf("`") + 1);
 		s = s.substring(s.indexOf(",") + 1);
-		isGameSequenceOrType = s.substring(0, s.indexOf(","));
+		
+		room_GameTypeUUID = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
-		String gameSequenceOrTypeUUID = s.substring(0, s.indexOf(","));
+		
+		s = s.substring(s.indexOf("`") + 1);
+		room_GameSequenceName = s.substring(0, s.indexOf("`"));
+		s = s.substring(s.indexOf("`") + 1);
 		s = s.substring(s.indexOf(",") + 1);
+		
+		room_GameSequenceUUID = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		
+		room_DifficultyName = s.substring(0, s.indexOf(","));
+		s = s.substring(s.indexOf(",") + 1);
+		
+		
 		String playersString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
 		String maxPlayersString = s.substring(0, s.indexOf(","));
@@ -157,8 +438,7 @@ public class BobsGameRoom
 
 
 
-		String difficultyNameString = s.substring(0, s.indexOf(","));
-		s = s.substring(s.indexOf(",") + 1);
+
 
 		String endlessModeString = s.substring(0, s.indexOf(","));
 		s = s.substring(s.indexOf(",") + 1);
@@ -230,87 +510,62 @@ public class BobsGameRoom
 		s = s.substring(s.indexOf(",") + 1);
 
 
-		BobsGameRoom newRoom = new BobsGameRoom();
 
-
-
-
-		int hostUserID = -1;
 		try
 		{
-			hostUserID = Integer.parseInt(hostUserIDString);
+			multiplayer_HostUserID = Integer.parseInt(hostUserIDString);
 		}
 		catch (Exception e)
 		{
 			log.error("hostUserID could not be parsed");
 			e.printStackTrace();
-			return null;
-		}
-		newRoom.hostUserID = hostUserID;
-
-		newRoom.uuid = roomUUID;
-
-		newRoom.gameSequenceOrTypeName = gameSequenceOrTypeName;
-
-		if (isGameSequenceOrType.equals("GameType"))
-		{
-			//newRoom.isSingleGameType = true;
-			newRoom.gameTypeUUID = gameSequenceOrTypeUUID;
-		}
-		else
-		{
-			//newRoom.isGameSequence = true;
-			newRoom.gameSequenceUUID = gameSequenceOrTypeUUID;
 		}
 
-		int numPlayers = -1;
 		try
 		{
-			numPlayers = Integer.parseInt(playersString);
+			multiplayer_NumPlayers = Integer.parseInt(playersString);
 		}
 		catch (Exception e)
 		{
 			log.error("numPlayers could not be parsed");
-			return null;
+			
 		}
-		newRoom.currentNumPlayers = numPlayers;
 
 		try
 		{
-			newRoom.maxPlayers = Integer.parseInt(maxPlayersString);
+			multiplayer_MaxPlayers = Integer.parseInt(maxPlayersString);
 		}
 		catch (Exception e)
 		{
 			log.error("Could not parse maxPlayers");
-			return null;
 		}
 
 		try
 		{
-			newRoom.privateRoom = Integer.parseInt(privateRoomString);
+			multiplayer_PrivateRoom = Integer.parseInt(privateRoomString);
 		}
 		catch (Exception e)
 		{
 			log.error("Could not parse privateRoom");
-			return null;
+
 		}
 
 		try
 		{
-			newRoom.tournamentRoom = Integer.parseInt(tournamentRoomString);
+			multiplayer_TournamentRoom = Integer.parseInt(tournamentRoomString);
 		}
 		catch (Exception e)
 		{
 			log.error("Could not parse tournamentRoom");
-			return null;
+
 		}
 
-		newRoom.difficultyName = difficultyNameString;
+
 
 
 		try
 		{
-			newRoom.endlessMode = Integer.parseInt(endlessModeString);
+			endlessMode = Integer.parseInt(endlessModeString);
 		}
 		catch (Exception e)
 		{
@@ -321,7 +576,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_AllowDifferentDifficulties = Integer.parseInt(multiplayer_AllowDifferentDifficultiesString);
+			multiplayer_AllowDifferentDifficulties = Integer.parseInt(multiplayer_AllowDifferentDifficultiesString);
 		}
 		catch (Exception e)
 		{
@@ -333,7 +588,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_AllowDifferentGameSequences = Integer.parseInt(multiplayer_AllowDifferentGameSequencesString);
+			multiplayer_AllowDifferentGameSequences = Integer.parseInt(multiplayer_AllowDifferentGameSequencesString);
 		}
 		catch (Exception e)
 		{
@@ -343,7 +598,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_GameEndsWhenOnePlayerRemains = Integer.parseInt(multiplayer_GameEndsWhenAllOpponentsLoseString);
+			multiplayer_GameEndsWhenOnePlayerRemains = Integer.parseInt(multiplayer_GameEndsWhenAllOpponentsLoseString);
 		}
 		catch (Exception e)
 		{
@@ -353,7 +608,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = Integer.parseInt(multiplayer_GameEndsWhenSomeoneCompletesCreditsLevelString);
+			multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = Integer.parseInt(multiplayer_GameEndsWhenSomeoneCompletesCreditsLevelString);
 		}
 		catch (Exception e)
 		{
@@ -363,7 +618,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_DisableVSGarbage = Integer.parseInt(multiplayer_DisableVSGarbageString);
+			multiplayer_DisableVSGarbage = Integer.parseInt(multiplayer_DisableVSGarbageString);
 		}
 		catch (Exception e)
 		{
@@ -374,7 +629,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.gameSpeedStart							 = Float.parseFloat(gameSpeedStartString);
+			gameSpeedStart							 = Float.parseFloat(gameSpeedStartString);
 		}
 		catch (Exception e)
 		{
@@ -384,7 +639,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.gameSpeedIncreaseRate					 = Float.parseFloat(gameSpeedIncreaseRateString);
+			gameSpeedChangeRate					 = Float.parseFloat(gameSpeedIncreaseRateString);
 		}
 		catch (Exception e)
 		{
@@ -394,7 +649,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.gameSpeedMaximum						 = Float.parseFloat(gameSpeedMaximumString);
+			gameSpeedMaximum						 = Float.parseFloat(gameSpeedMaximumString);
 		}
 		catch (Exception e)
 		{
@@ -404,7 +659,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.levelUpMultiplier						 = Float.parseFloat(levelUpMultiplierString);
+			levelUpMultiplier						 = Float.parseFloat(levelUpMultiplierString);
 		}
 		catch (Exception e)
 		{
@@ -414,7 +669,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.levelUpCompoundMultiplier				 = Float.parseFloat(levelUpCompoundMultiplierString);
+			levelUpCompoundMultiplier				 = Float.parseFloat(levelUpCompoundMultiplierString);
 		}
 		catch (Exception e)
 		{
@@ -424,7 +679,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_AllowNewPlayersDuringGame	 = Integer.parseInt(multiplayer_AllowNewPlayersDuringGameString);
+			multiplayer_AllowNewPlayersDuringGame	 = Integer.parseInt(multiplayer_AllowNewPlayersDuringGameString);
 		}
 		catch (Exception e)
 		{
@@ -434,7 +689,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_UseTeams					 = Integer.parseInt(multiplayer_UseTeamsString);
+			multiplayer_UseTeams					 = Integer.parseInt(multiplayer_UseTeamsString);
 		}
 		catch (Exception e)
 		{
@@ -444,7 +699,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.multiplayer_GarbageMultiplier			 = Float.parseFloat(multiplayer_GarbageMultiplierString);
+			multiplayer_GarbageMultiplier			 = Float.parseFloat(multiplayer_GarbageMultiplierString);
 		}
 		catch (Exception e)
 		{
@@ -454,7 +709,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.multiplayer_GarbageLimit				 = Integer.parseInt(multiplayer_GarbageLimitString);
+			multiplayer_GarbageLimit				 = Integer.parseInt(multiplayer_GarbageLimitString);
 		}
 		catch (Exception e)
 		{
@@ -464,7 +719,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.multiplayer_GarbageScaleByDifficulty	 = Integer.parseInt(multiplayer_GarbageScaleByDifficultyString);
+			multiplayer_GarbageScaleByDifficulty	 = Integer.parseInt(multiplayer_GarbageScaleByDifficultyString);
 		}
 		catch (Exception e)
 		{
@@ -474,7 +729,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.multiplayer_SendGarbageTo				 = Integer.parseInt(multiplayer_SendGarbageToString);
+			multiplayer_SendGarbageTo				 = Integer.parseInt(multiplayer_SendGarbageToString);
 		}
 		catch (Exception e)
 		{
@@ -484,7 +739,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.floorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
+			floorSpinLimit				 = Integer.parseInt(multiplayer_FloorSpinLimitString);
 		}
 		catch (Exception e)
 		{
@@ -496,7 +751,7 @@ public class BobsGameRoom
 		{
 			//if(multiplayer_LockDelayLimitString.equals("-1")) {newRoom.lockDelayLimit=-1;}
 			//else
-			newRoom.lockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
+			totalYLockDelayLimit				 = Integer.parseInt(multiplayer_LockDelayLimitString);
 		}
 		catch (Exception e)
 		{
@@ -507,7 +762,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.lockDelayDecreaseMultiplier	 = Float.parseFloat(multiplayer_LockDelayDecreaseMultiplierString);
+			lockDelayDecreaseRate	 = Float.parseFloat(multiplayer_LockDelayDecreaseMultiplierString);
 		}
 		catch (Exception e)
 		{
@@ -518,7 +773,7 @@ public class BobsGameRoom
 
 		try
 		{
-			newRoom.lockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
+			lockDelayMinimum			 = Integer.parseInt(multiplayer_LockDelayMinimumString);
 		}
 		catch (Exception e)
 		{
@@ -529,7 +784,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.stackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
+			stackWaitLimit				 = Integer.parseInt(multiplayer_StackWaitLimitString);
 		}
 		catch (Exception e)
 		{
@@ -540,7 +795,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.spawnDelayLimit			 	 = Integer.parseInt(multiplayer_SpawnDelayLimitString);
+			spawnDelayLimit			 	 = Integer.parseInt(multiplayer_SpawnDelayLimitString);
 		}
 		catch (Exception e)
 		{
@@ -550,7 +805,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.spawnDelayDecreaseRate		 = Float.parseFloat(multiplayer_SpawnDelayDecreaseRateString);
+			spawnDelayDecreaseRate		 = Float.parseFloat(multiplayer_SpawnDelayDecreaseRateString);
 		}
 		catch (Exception e)
 		{
@@ -560,7 +815,7 @@ public class BobsGameRoom
 		
 		try
 		{
-			newRoom.spawnDelayMinimum			 = Integer.parseInt(multiplayer_SpawnDelayMinimumString);
+			spawnDelayMinimum			 = Integer.parseInt(multiplayer_SpawnDelayMinimumString);
 		}
 		catch (Exception e)
 		{
@@ -573,7 +828,7 @@ public class BobsGameRoom
 		{
 			//if(multiplayer_DropDelayMinimumString.equals("-1")) {newRoom.dropDelayMinimum=-1;}
 			//else
-			newRoom.dropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
+			dropDelayMinimum			 = Integer.parseInt(multiplayer_DropDelayMinimumString);
 		}
 		catch (Exception e)
 		{
@@ -582,9 +837,10 @@ public class BobsGameRoom
 		}
 		
 		
-		
-		return newRoom;
+
 	}
+
+
 
 
 };

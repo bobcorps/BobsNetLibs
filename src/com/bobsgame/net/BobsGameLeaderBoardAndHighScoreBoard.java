@@ -67,7 +67,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 	public static Logger log = (Logger) LoggerFactory.getLogger(BobsGameLeaderBoardAndHighScoreBoard.class);
 
 
-	public String isGameTypeOrSequence = "";
+	public String isGameSequenceOrType = "";
 	public String gameTypeName = "";
 	public String gameTypeUUID = "";
 	public String gameSequenceName = "";
@@ -139,13 +139,13 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 			String gameTypeOrSequenceQueryString = "";
 			String uuid = "";
-			if(game.isGameTypeOrSequence.equals("GameType"))
+			if(game.isGameSequenceOrType.equals("GameType"))
 			{
 				gameTypeOrSequenceQueryString = "gameTypeUUID = ?";
 				uuid = game.gameTypeUUID;
 			}
 
-			if(game.isGameTypeOrSequence.equals("GameSequence"))
+			if(game.isGameSequenceOrType.equals("GameSequence"))
 			{
 				gameTypeOrSequenceQueryString = "gameSequenceUUID = ?";
 				uuid = game.gameSequenceUUID;
@@ -164,7 +164,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			}
 
 			String objectiveString = "Play To Credits";
-			if(game.endlessMode==1)
+			if(game.room.endlessMode==1)
 			{
 				objectiveString = "Endless Mode";
 			}
@@ -201,15 +201,18 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		if(stats==null)
 		{
 			stats = new BobsGameLeaderBoardAndHighScoreBoard();
-			stats.isGameTypeOrSequence = game.isGameTypeOrSequence;
+			stats.isGameSequenceOrType = game.isGameSequenceOrType;
+		
 			stats.gameTypeUUID = game.gameTypeUUID;
 			stats.gameTypeName = game.gameTypeName;
 			stats.gameSequenceUUID = game.gameSequenceUUID;
 			stats.gameSequenceName = game.gameSequenceName;
+			
+						
 			stats.difficultyName = game.difficultyName;
 			
 			stats.objectiveString = "Play To Credits";
-			if(game.endlessMode==1)
+			if(game.room.endlessMode == 1)
 			{
 				stats.objectiveString = "Endless Mode";
 			}
@@ -217,7 +220,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 			if(anyGame)
 			{
-				stats.isGameTypeOrSequence = "OVERALL";
+				stats.isGameSequenceOrType = "OVERALL";
 				stats.gameTypeUUID = "OVERALL";
 				stats.gameTypeName = "OVERALL";
 				stats.gameSequenceUUID = "OVERALL";
@@ -952,7 +955,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 			if(compareTimeLasted)
 			{
-				if(game.endlessMode==1) 
+				if(game.room.endlessMode==1) 
 				{
 					
 					if(score.longestTimeLastedThisGameAndDifficulty>existingEntry.longestGameLength)
@@ -1088,7 +1091,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		try
 		{
 
-			isGameTypeOrSequence = databaseResultSet.getString("isGameTypeOrSequence");
+			isGameSequenceOrType = databaseResultSet.getString("isGameTypeOrSequence");
 			gameTypeName = databaseResultSet.getString("gameTypeName");
 			gameTypeUUID = databaseResultSet.getString("gameTypeUUID");
 			gameSequenceName = databaseResultSet.getString("gameSequenceName");
@@ -1097,7 +1100,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			objectiveString = databaseResultSet.getString("objectiveString");
 
 
-			if(isGameTypeOrSequence==null)isGameTypeOrSequence = "";
+			if(isGameSequenceOrType==null)isGameSequenceOrType = "";
 			if(gameTypeName==null)gameTypeName = "";
 			if(gameTypeUUID==null)gameTypeUUID = "";
 			if(gameSequenceName==null)gameSequenceName = "";
@@ -1155,7 +1158,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		String gameSaveString = "";
 
 
-		gameSaveString+=",isGameTypeOrSequence:"+            			"`"+isGameTypeOrSequence+"`";
+		gameSaveString+=",isGameTypeOrSequence:"+            			"`"+isGameSequenceOrType+"`";
 		gameSaveString+=",gameTypeName:"+            			"`"+gameTypeName+"`";
 		gameSaveString+=",gameTypeUUID:"+            			"`"+gameTypeUUID+"`";
 		gameSaveString+=",gameSequenceName:"+            			"`"+gameSequenceName+"`";
@@ -1223,7 +1226,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 		s = s.substring(s.indexOf('`')+1);
 		t = s.substring(0, s.indexOf('`'));
-		if(t.length()>0)isGameTypeOrSequence = t;
+		if(t.length()>0)isGameSequenceOrType = t;
 		s = s.substring(s.indexOf('`')+1);
 
 		s = s.substring(s.indexOf('`')+1);
@@ -1464,7 +1467,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			int n=0;
 
 
-			ps.setString	(++n, isGameTypeOrSequence);
+			ps.setString	(++n, isGameSequenceOrType);
 			ps.setString	(++n, gameTypeName);
 			ps.setString	(++n, gameTypeUUID);
 			ps.setString	(++n, gameSequenceName);
@@ -1529,19 +1532,19 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 		String gameTypeOrSequenceQueryString = "";
 		String uuid = "";
-		if(isGameTypeOrSequence.equals("GameType"))
+		if(isGameSequenceOrType.equals("GameType"))
 		{
 			gameTypeOrSequenceQueryString = "gameTypeUUID = ?";
 			uuid = gameTypeUUID;
 		}
 
-		if(isGameTypeOrSequence.equals("GameSequence"))
+		if(isGameSequenceOrType.equals("GameSequence"))
 		{
 			gameTypeOrSequenceQueryString = "gameSequenceUUID = ?";
 			uuid = gameSequenceUUID;
 		}
 
-		if(isGameTypeOrSequence.equals("OVERALL"))
+		if(isGameSequenceOrType.equals("OVERALL"))
 		{
 			gameTypeOrSequenceQueryString = "isGameTypeOrSequence = ?";
 			uuid = "OVERALL";

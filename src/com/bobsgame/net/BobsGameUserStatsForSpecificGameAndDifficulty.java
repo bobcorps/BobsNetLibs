@@ -114,7 +114,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 	}
 
 	//===============================================================================================
-	static public BobsGameUserStatsForSpecificGameAndDifficulty getFromDBOrCreateNewIfNotExist(Connection databaseConnection, long userID, String userName, String isGameTypeOrSequence, String gameTypeUUID, String gameTypeName, String gameSequenceUUID, String gameSequenceName, String difficultyName, String objectiveString)
+	static public BobsGameUserStatsForSpecificGameAndDifficulty getFromDBOrCreateNewIfNotExist(Connection databaseConnection, long userID, String userName, String isGameSequenceOrType, String gameTypeUUID, String gameTypeName, String gameSequenceUUID, String gameSequenceName, String difficultyName, String objectiveString)
 	{//===============================================================================================
 
 		BobsGameUserStatsForSpecificGameAndDifficulty stats = null;
@@ -124,19 +124,19 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 			String gameTypeOrSequenceQueryString = "";
 			String uuid = "";
-			if(isGameTypeOrSequence.equals("GameType"))
+			if(isGameSequenceOrType.equals("GameType"))
 			{
 				gameTypeOrSequenceQueryString = "gameTypeUUID = ?";
 				uuid = gameTypeUUID;
 			}
 
-			if(isGameTypeOrSequence.equals("GameSequence"))
+			if(isGameSequenceOrType.equals("GameSequence"))
 			{
 				gameTypeOrSequenceQueryString = "gameSequenceUUID = ?";
 				uuid = gameSequenceUUID;
 			}
 
-			if(isGameTypeOrSequence.equals("OVERALL"))
+			if(isGameSequenceOrType.equals("OVERALL"))
 			{
 				gameTypeOrSequenceQueryString = "isGameTypeOrSequence = ?";
 				uuid = "OVERALL";
@@ -181,11 +181,20 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			stats = new BobsGameUserStatsForSpecificGameAndDifficulty();
 			stats.userID = userID;
 			stats.userName = userName;
-			stats.isGameTypeOrSequence = isGameTypeOrSequence;
-			stats.gameTypeUUID = gameTypeUUID;
-			stats.gameTypeName = gameTypeName;
-			stats.gameSequenceUUID = gameSequenceUUID;
-			stats.gameSequenceName = gameSequenceName;
+			stats.isGameTypeOrSequence = isGameSequenceOrType;
+			
+			if(isGameSequenceOrType.equals("GameType"))
+			{			
+				stats.gameTypeUUID = gameTypeUUID;
+				stats.gameTypeName = gameTypeName;
+			}
+
+			if(isGameSequenceOrType.equals("GameSequence"))
+			{
+				stats.gameSequenceUUID = gameSequenceUUID;
+				stats.gameSequenceName = gameSequenceName;
+			}
+			
 			stats.difficultyName = difficultyName;
 			stats.objectiveString = objectiveString;
 			stats.initDB(databaseConnection);
@@ -204,7 +213,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 		totalGamesPlayed++;
 
-		if(game.numPlayers==1 && game.isLocalMultiplayer == 0 && game.isNetworkMultiplayer == 0)
+		if(game.room.multiplayer_NumPlayers==1 && game.isLocalMultiplayer == 0 && game.isNetworkMultiplayer == 0)
 		{
 			singlePlayerGamesPlayed++;
 			if(game.complete==1)singlePlayerGamesCompleted++;
@@ -212,10 +221,10 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 			if(game.level>singlePlayerHighestLevelReached)singlePlayerHighestLevelReached = game.level;
 		}
-		if(game.tournamentRoom==1)tournamentGamesPlayed++;
+		if(game.room.multiplayer_TournamentRoom==1)tournamentGamesPlayed++;
 		if(game.isLocalMultiplayer==1)localMultiplayerGamesPlayed++;
-		if(game.tournamentRoom==1 && game.won==1)tournamentGamesWon++;
-		if(game.tournamentRoom==1 && (game.lost==1 || game.won==0))tournamentGamesLost++;
+		if(game.room.multiplayer_TournamentRoom==1 && game.won==1)tournamentGamesWon++;
+		if(game.room.multiplayer_TournamentRoom==1 && (game.lost==1 || game.won==0))tournamentGamesLost++;
 
 
 
@@ -238,9 +247,9 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		lastTimePlayed = System.currentTimeMillis();
 
 		//planeswalker points = 3 points for a win, 1 for a draw, zero for a loss
-		if(game.tournamentRoom==1 && game.won==1)planesWalkerPoints+=3;
-		if(game.tournamentRoom==1 && game.lost==1)planesWalkerPoints+=0;
-		if(game.tournamentRoom==0)planesWalkerPoints+=1;//1 for playing normal game
+		if(game.room.multiplayer_TournamentRoom==1 && game.won==1)planesWalkerPoints+=3;
+		if(game.room.multiplayer_TournamentRoom==1 && game.lost==1)planesWalkerPoints+=0;
+		if(game.room.multiplayer_TournamentRoom==0)planesWalkerPoints+=1;//1 for playing normal game
 
 		totalBlocksMade+=game.blocksMade;
 		totalPiecesMade+=game.piecesMade;
@@ -255,7 +264,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		}
 
 		//elo score
-		if(game.tournamentRoom==1)
+		if(game.room.multiplayer_TournamentRoom==1)
 		{
 			//if it was a tournament game, parse playerIDsCSV and get other players
 			//calculate elo score based on that
