@@ -23,7 +23,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 	public String userName = "";
 	public long userID = -1;
 
-	public String isGameTypeOrSequence = "";
+	public String isGameSequenceOrType = "";
 	public String gameTypeName = "";
 	public String gameTypeUUID = "";
 	public String gameSequenceName = "";
@@ -181,7 +181,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			stats = new BobsGameUserStatsForSpecificGameAndDifficulty();
 			stats.userID = userID;
 			stats.userName = userName;
-			stats.isGameTypeOrSequence = isGameSequenceOrType;
+			stats.isGameSequenceOrType = isGameSequenceOrType;
 			
 			if(isGameSequenceOrType.equals("GameType"))
 			{			
@@ -206,11 +206,16 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 
 	//===============================================================================================
-	public boolean updateFromGameStats(Connection databaseConnection,BobsGameGameStats game, BobsGameLeaderBoardAndHighScoreBoard.LeaderBoardScore score)
+	public boolean updateFromGameStats(Connection databaseConnection,BobsGameGameStats game, BobsGameLeaderBoardAndHighScoreBoard.LeaderBoardScore score, String responseString)
 	{//===============================================================================================
 		//now compare gameStats with userHighScore variables and set them
 
-
+		String name = "";
+		if(isGameSequenceOrType=="GameType")name = gameTypeName;
+		if(isGameSequenceOrType=="GameSequence")name = gameSequenceName;
+		if(isGameSequenceOrType=="OVERALL")name = "OVERALL";
+		String tempResponse = ""; 
+		
 		totalGamesPlayed++;
 
 		if(game.room.multiplayer_NumPlayers==1 && game.isLocalMultiplayer == 0 && game.isNetworkMultiplayer == 0)
@@ -219,12 +224,24 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			if(game.complete==1)singlePlayerGamesCompleted++;
 			if(game.died==1)singlePlayerGamesLost++;
 
-			if(game.level>singlePlayerHighestLevelReached)singlePlayerHighestLevelReached = game.level;
+			if(game.level>singlePlayerHighestLevelReached) 
+			{
+				singlePlayerHighestLevelReached = game.level;
+				tempResponse += "`Record: New highest level reached!`,";
+			}
 		}
 		if(game.room.multiplayer_TournamentRoom==1)tournamentGamesPlayed++;
 		if(game.isLocalMultiplayer==1)localMultiplayerGamesPlayed++;
-		if(game.room.multiplayer_TournamentRoom==1 && game.won==1)tournamentGamesWon++;
-		if(game.room.multiplayer_TournamentRoom==1 && (game.lost==1 || game.won==0))tournamentGamesLost++;
+		if(game.room.multiplayer_TournamentRoom==1 && game.won==1)
+		{
+			tournamentGamesWon++;
+			tempResponse += "`Record: Tournament game won!`,";
+		}
+		if(game.room.multiplayer_TournamentRoom==1 && (game.lost==1 || game.won==0)) 
+		{
+			tournamentGamesLost++;
+			tempResponse += "`Record: Tournament game lost...`,";
+		}
 
 
 
@@ -233,12 +250,16 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		{
 			longestGameLength = game.timeLasted;
 			longestTimeStatsUUID = game.statsUUID;
+			
+			tempResponse += "`Record: Longest time lasted!`,";
 		}
 		
 		if(game.complete==1 && (game.timeLasted < fastestClearedLength || fastestClearedLength == 0))
 		{
 			fastestClearedLength = game.timeLasted;
 			fastestTimeClearedStatsUUID = game.statsUUID;
+			
+			tempResponse += "`Record: Fastest time cleared!`,";
 		}
 
 		averageGameLength = totalTimePlayed / totalGamesPlayed;
@@ -246,11 +267,18 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		if(firstTimePlayed == 0)firstTimePlayed = System.currentTimeMillis();
 		lastTimePlayed = System.currentTimeMillis();
 
+		int updatePoints = 0;
 		//planeswalker points = 3 points for a win, 1 for a draw, zero for a loss
-		if(game.room.multiplayer_TournamentRoom==1 && game.won==1)planesWalkerPoints+=3;
-		if(game.room.multiplayer_TournamentRoom==1 && game.lost==1)planesWalkerPoints+=0;
-		if(game.room.multiplayer_TournamentRoom==0)planesWalkerPoints+=1;//1 for playing normal game
-
+		if(game.room.multiplayer_TournamentRoom==1 && game.won==1) {planesWalkerPoints+=3;updatePoints = 3;}
+		if(game.room.multiplayer_TournamentRoom==1 && game.lost==1) {planesWalkerPoints+=0;updatePoints = 0;}
+		if(game.room.multiplayer_TournamentRoom==0) {planesWalkerPoints+=1;updatePoints = 1;}//1 for playing normal game
+		if(updatePoints>0)
+		{
+			tempResponse += "`Earned "+updatePoints+" planeswalker points!`,";
+		}
+		
+		
+		
 		totalBlocksMade+=game.blocksMade;
 		totalPiecesMade+=game.piecesMade;
 		totalBlocksCleared+=game.blocksCleared;
@@ -261,6 +289,8 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		{
 			mostBlocksCleared = game.blocksCleared;
 			mostBlocksClearedStatsUUID = game.statsUUID;
+			
+			tempResponse += "`Record: Most blocks cleared!`,";
 		}
 
 		//elo score
@@ -318,19 +348,19 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 						
 						String gameTypeOrSequenceQueryString = "";
 						String uuid = "";
-						if(isGameTypeOrSequence.equals("GameType"))
+						if(isGameSequenceOrType.equals("GameType"))
 						{
 							gameTypeOrSequenceQueryString = "gameTypeUUID = ?";
 							uuid = gameTypeUUID;
 						}
 
-						if(isGameTypeOrSequence.equals("GameSequence"))
+						if(isGameSequenceOrType.equals("GameSequence"))
 						{
 							gameTypeOrSequenceQueryString = "gameSequenceUUID = ?";
 							uuid = gameSequenceUUID;
 						}
 
-						if(isGameTypeOrSequence.equals("OVERALL"))
+						if(isGameSequenceOrType.equals("OVERALL"))
 						{
 							gameTypeOrSequenceQueryString = "isGameTypeOrSequence = ?";
 							uuid = "OVERALL";
@@ -381,6 +411,8 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 							log.info("Wikipedia ELO score:"+wikipediaEloScore);
 							log.info("Other Website ELO score:"+otherWebsiteEloScore);
 							eloScore = otherWebsiteEloScore;
+							
+							tempResponse += "`ELO score updated from "+originalEloScore+" to "+eloScore+"!`,";
 						}
 
 					}catch (Exception ex){log.error("DB ERROR: "+ex.getMessage());ex.printStackTrace();return false;}
@@ -389,7 +421,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 		}
 
-		if(isGameTypeOrSequence.equals("OVERALL") && difficultyName.equals("OVERALL") == false)
+		if(isGameSequenceOrType.equals("OVERALL") && difficultyName.equals("OVERALL") == false)
 		{
 			score.newEloScoreForThisDifficulty = eloScore;
 			score.newPlaneswalkerPointsForThisDifficulty = planesWalkerPoints;
@@ -398,7 +430,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			score.totalBlocksClearedThisDifficulty = totalBlocksCleared;
 		}
 
-		if(difficultyName.equals("OVERALL") && isGameTypeOrSequence.equals("OVERALL") == false)
+		if(difficultyName.equals("OVERALL") && isGameSequenceOrType.equals("OVERALL") == false)
 		{
 			score.newEloScoreForThisGame = eloScore;
 			score.newPlaneswalkerPointsForThisGame = planesWalkerPoints;
@@ -407,7 +439,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			score.totalBlocksClearedThisGame = totalBlocksCleared;
 		}
 
-		if(isGameTypeOrSequence.equals("OVERALL") && difficultyName.equals("OVERALL"))
+		if(isGameSequenceOrType.equals("OVERALL") && difficultyName.equals("OVERALL"))
 		{
 			score.newEloScoreOverall = eloScore;
 			score.newPlaneswalkerPointsOverall = planesWalkerPoints;
@@ -416,7 +448,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			score.totalBlocksClearedOverall = totalBlocksCleared;
 		}
 
-		if(isGameTypeOrSequence.equals("OVERALL") == false && difficultyName.equals("OVERALL") == false)
+		if(isGameSequenceOrType.equals("OVERALL") == false && difficultyName.equals("OVERALL") == false)
 		{
 			score.newEloScoreForThisGameAndDifficulty = eloScore;
 			score.newPlaneswalkerPointsForThisGameAndDifficulty = planesWalkerPoints;
@@ -427,6 +459,11 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			score.mostBlocksClearedThisGameAndDifficulty = mostBlocksCleared;
 			score.longestTimeLastedThisGameAndDifficulty = longestGameLength;
 			score.fastestTimeClearedThisGameAndDifficulty = fastestClearedLength;
+		}
+		
+		if(tempResponse.length()>0)
+		{
+			responseString += "`Results for "+name+" - "+difficultyName+"`,"+tempResponse;
 		}
 
 		return true;
@@ -441,7 +478,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 			userID = databaseResultSet.getLong("userID");
 			userName = databaseResultSet.getString("userName");
-			isGameTypeOrSequence = databaseResultSet.getString("isGameTypeOrSequence");
+			isGameSequenceOrType = databaseResultSet.getString("isGameTypeOrSequence");
 			gameTypeName = databaseResultSet.getString("gameTypeName");
 			gameTypeUUID = databaseResultSet.getString("gameTypeUUID");
 			gameSequenceName = databaseResultSet.getString("gameSequenceName");
@@ -450,7 +487,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			objectiveString = databaseResultSet.getString("objectiveString");
 
 			if(userName==null)userName = "";
-			if(isGameTypeOrSequence==null)isGameTypeOrSequence = "";
+			if(isGameSequenceOrType==null)isGameSequenceOrType = "";
 			if(gameTypeName==null)gameTypeName = "";
 			if(gameTypeUUID==null)gameTypeUUID = "";
 			if(gameSequenceName==null)gameSequenceName = "";
@@ -511,7 +548,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		"userID:"+                  		"`"+userID+"`"+
 		",userName:"+            			"`"+userName+"`";
 
-		gameSaveString+=",isGameTypeOrSequence:"+            			"`"+isGameTypeOrSequence+"`";
+		gameSaveString+=",isGameTypeOrSequence:"+            			"`"+isGameSequenceOrType+"`";
 		gameSaveString+=",gameTypeName:"+            			"`"+gameTypeName+"`";
 		gameSaveString+=",gameTypeUUID:"+            			"`"+gameTypeUUID+"`";
 		gameSaveString+=",gameSequenceName:"+            			"`"+gameSequenceName+"`";
@@ -591,7 +628,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 		s = s.substring(s.indexOf('`')+1);
 		t = s.substring(0, s.indexOf('`'));
-		if(t.length()>0)isGameTypeOrSequence = t;
+		if(t.length()>0)isGameSequenceOrType = t;
 		s = s.substring(s.indexOf('`')+1);
 
 		s = s.substring(s.indexOf('`')+1);
@@ -832,7 +869,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 			int n = 0;
 			ps.setLong(++n, userID);
 			ps.setString(++n, userName);
-			ps.setString(++n, isGameTypeOrSequence);
+			ps.setString(++n, isGameSequenceOrType);
 			ps.setString(++n, gameTypeName);
 			ps.setString(++n, gameTypeUUID);
 			ps.setString(++n, gameSequenceName);
@@ -895,19 +932,19 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 		String gameTypeOrSequenceQueryString = "";
 		String uuid = "";
-		if(isGameTypeOrSequence.equals("GameType"))
+		if(isGameSequenceOrType.equals("GameType"))
 		{
 			gameTypeOrSequenceQueryString = "gameTypeUUID = ?";
 			uuid = gameTypeUUID;
 		}
 
-		if(isGameTypeOrSequence.equals("GameSequence"))
+		if(isGameSequenceOrType.equals("GameSequence"))
 		{
 			gameTypeOrSequenceQueryString = "gameSequenceUUID = ?";
 			uuid = gameSequenceUUID;
 		}
 
-		if(isGameTypeOrSequence.equals("OVERALL"))
+		if(isGameSequenceOrType.equals("OVERALL"))
 		{
 			gameTypeOrSequenceQueryString = "isGameTypeOrSequence = ?";
 			uuid = "OVERALL";
@@ -965,7 +1002,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 				int n = 0;
 				ps.setString(++n, userName);
-				ps.setString(++n, isGameTypeOrSequence);
+				ps.setString(++n, isGameSequenceOrType);
 				ps.setString(++n, gameTypeName);
 				ps.setString(++n, gameTypeUUID);
 				ps.setString(++n, gameSequenceName);

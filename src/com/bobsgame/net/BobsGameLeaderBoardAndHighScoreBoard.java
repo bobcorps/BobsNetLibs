@@ -290,7 +290,8 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 																BobsGameUserStatsForSpecificGameAndDifficulty userStatsForAnyGameAnyDifficulty,
 																BobsGameUserStatsForSpecificGameAndDifficulty userStatsForAnyGameThisDifficulty,
 																BobsGameUserStatsForSpecificGameAndDifficulty userStatsForThisGameAnyDifficulty,
-																BobsGameUserStatsForSpecificGameAndDifficulty userStatsForThisGameThisDifficulty
+																BobsGameUserStatsForSpecificGameAndDifficulty userStatsForThisGameThisDifficulty,
+																String responseString
 																)
 	{//===============================================================================================
 		//leaderboard by game and difficulty elo score
@@ -375,7 +376,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -389,7 +390,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -403,7 +404,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = true;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -417,7 +418,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = true;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -433,7 +434,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -447,7 +448,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -461,7 +462,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = true;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -475,7 +476,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = true;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -492,7 +493,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -506,7 +507,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -520,7 +521,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = true;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -534,7 +535,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = true;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -552,7 +553,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByEloScore_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -566,7 +567,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByPlaneswalkerPoints_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -580,7 +581,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = true;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalTimePlayed_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -594,7 +595,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = true;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -629,7 +630,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -643,7 +644,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -660,7 +661,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -674,7 +675,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -691,7 +692,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -705,7 +706,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -721,7 +722,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -735,7 +736,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 		compareTotalBlocksCleared = false;
 		compareTotalTimePlayed = false;
 		stats = BobsGameLeaderBoardAndHighScoreBoard.getFromDBOrCreateNewIfNotExist(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name,game,anyGame,anyDifficulty);
-		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed);
+		needToUpdate = stats.updateFromGameStatsIfNecessary(databaseConnection, game, userStatsForAnyGameAnyDifficulty, userStatsForAnyGameThisDifficulty, userStatsForThisGameAnyDifficulty, userStatsForThisGameThisDifficulty, score, anyGame, anyDifficulty, compareEloScore, comparePlaneswalkerPoints, compareBlocksCleared, compareTimeLasted, compareTotalBlocksCleared, compareTotalTimePlayed, responseString);
 		if(needToUpdate)stats.updateDB(databaseConnection,BobNet.Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name);
 		if(needToUpdate)leaderBoardsModified = true;
 
@@ -752,7 +753,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 												BobsGameUserStatsForSpecificGameAndDifficulty userStatsForThisGameAnyDifficulty,
 												BobsGameUserStatsForSpecificGameAndDifficulty userStatsForThisGameThisDifficulty,
 
-												LeaderBoardScore score, boolean anyGame, boolean anyDifficulty, boolean compareEloScore, boolean comparePlaneswalkerPoints, boolean compareBlocksCleared, boolean compareTimeLasted, boolean compareTotalBlocksCleared, boolean compareTotalTimePlayed)
+												LeaderBoardScore score, boolean anyGame, boolean anyDifficulty, boolean compareEloScore, boolean comparePlaneswalkerPoints, boolean compareBlocksCleared, boolean compareTimeLasted, boolean compareTotalBlocksCleared, boolean compareTotalTimePlayed, String responseString)
 	{//===============================================================================================
 
 
@@ -1046,6 +1047,22 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 
 			if(replaceScore)
 			{
+				
+				String name = "";
+				if(isGameSequenceOrType=="GameType")name = gameTypeName;
+				if(isGameSequenceOrType=="GameSequence")name = gameSequenceName;
+				if(isGameSequenceOrType=="OVERALL")name = "OVERALL";
+				
+				String type = "";
+				if(compareEloScore)type = "Top Players By ELO Score";
+				if(comparePlaneswalkerPoints)type = "Top Players By Planeswalker points";
+				if(compareBlocksCleared)type = "Top Games By Blocks Cleared";
+				if(compareTimeLasted)type = "Top Games By Time Lasted";
+				if(compareTotalBlocksCleared)type = "Top Players By Total Blocks Cleared";
+				if(compareTotalTimePlayed)type = "Top Players By Total Time Played";
+				
+				responseString += "`Placed #"+i+" on Leaderboard "+type+" - "+name+" - "+difficultyName+"!`,";
+				
 
 				//go through rest of entries and if this userID is in any of them, remove them
 				for(int n=0;n<entries.size();n++)

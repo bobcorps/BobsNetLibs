@@ -273,6 +273,7 @@ public class BobNet
 	public static final String Bobs_Game_HostingPublicRoomEnded = "Bobs_Game_HostingPublicRoomEnded:";
 
 	public static final String Bobs_Game_GameStats = "Bobs_Game_GameStats:";
+	public static final String Bobs_Game_GameStats_Response = "Bobs_Game_GameStats_Response:";
 
 
 
