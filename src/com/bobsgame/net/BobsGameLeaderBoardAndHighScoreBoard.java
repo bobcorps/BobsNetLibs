@@ -1056,21 +1056,43 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				String type = "";
 				if(compareEloScore)type = "Top Players By ELO Score";
 				if(comparePlaneswalkerPoints)type = "Top Players By Planeswalker points";
-				if(compareBlocksCleared)type = "Top Games By Blocks Cleared";
-				if(compareTimeLasted)type = "Top Games By Time Lasted";
+
 				if(compareTotalBlocksCleared)type = "Top Players By Total Blocks Cleared";
 				if(compareTotalTimePlayed)type = "Top Players By Total Time Played";
+				if(compareBlocksCleared)type = "Top Games By Blocks Cleared";
+				if(compareTimeLasted)type = "Top Games By Time Lasted";
 				
-				responseString += "`Placed #"+i+" on Leaderboard "+type+" - "+name+" - "+difficultyName+"!`,";
-				
-
-				//go through rest of entries and if this userID is in any of them, remove them
-				for(int n=0;n<entries.size();n++)
+				if(i<entries.size()-1 && entries.get(i+1).userName.length()>0)
 				{
-					BobsGameLeaderBoardAndHighScoreBoardEntry tempEntry = entries.get(n);
-					if(tempEntry.userID == game.userID){entries.remove(n);n--;}
+					String n = entries.get(i+1).userName;
+					responseString += "`You defeated "+n+" and placed #"+i+" on Leaderboard "+type+" - "+name+" - "+difficultyName+"!`,";
 				}
-
+				else
+				{
+					responseString += "`You placed #"+i+" on Leaderboard "+type+" - "+name+" - "+difficultyName+"!`,";
+				}
+				
+				
+				if(compareBlocksCleared==false && compareTimeLasted==false)//can have multiple entries for these types
+				{
+					//don't replace a better score
+					for(int n=0;n<i;n++)
+					{
+						BobsGameLeaderBoardAndHighScoreBoardEntry tempEntry = entries.get(n);
+						if(tempEntry.userID == game.userID)
+						{
+							return false;
+						}
+					}
+					
+					//go through rest of entries underneath this one and if this userID is in any of them, remove them
+					for(int n=i;n<entries.size();n++)
+					{
+						BobsGameLeaderBoardAndHighScoreBoardEntry tempEntry = entries.get(n);
+						if(tempEntry.userID == game.userID){entries.remove(n);n--;}
+					}
+				}
+				
 				entries.add(i,newEntry);
 
 				//if this puts us over, delete last entry
@@ -1083,8 +1105,6 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			}
 
 		}
-
-
 
 
 		return false;
