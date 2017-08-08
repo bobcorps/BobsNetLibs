@@ -53,22 +53,6 @@ public class BobsGameGameStats
 	public int combosMade = 0;
 	public int biggestCombo = 0;
 
-	//public String room_DifficultyName = "";
-	//public int singlePlayer_randomizeSequence = 0;
-	//public int endlessMode = 0;
-	//public int multiplayer_NumPlayers = 0;
-
-	//public int maxPlayers = 0;
-	//public int privateRoom = 0;
-	//public int tournamentRoom = 0;
-	//public long hostUserID = 0;
-	//public int multiplayer_AllowDifferentDifficulties = 1;
-	//public int multiplayer_AllowDifferentGameSequences = 1;
-	//public int multiplayer_GameEndsWhenOnePlayerRemains = 1;
-	//public int multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = 1;
-	//public int multiplayer_DisableVSGarbage = 0;
-
-
 	public String allFrameStatesZipped = "";
 	public String statsUUID = "";
 	public String playerIDsCSV = "";//id:`userName`:lost,id:`userName`:won,:
@@ -120,15 +104,6 @@ public String encode()
 		+ piecesPlaced + ","
 		+ combosMade + ","
 		+ biggestCombo + ","
-		//+ maxPlayers + ","
-		//+ privateRoom + ","
-		//+ tournamentRoom + ","
-		//+ hostUserID + ","
-		//+ multiplayer_AllowDifferentDifficulties + ","
-		//+ multiplayer_AllowDifferentGameSequences + ","
-		//+ multiplayer_GameEndsWhenOnePlayerRemains + ","
-		//+ multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel + ","
-		//+ multiplayer_DisableVSGarbage + ","
 		+ allFrameStatesZipped + ","
 		+ statsUUID + ","
 		+ playerIDsCSV + ":"
@@ -219,35 +194,7 @@ public void decode(String s)
 	s = s.substring(s.indexOf(",") + 1);
 	String biggestComboString = s.substring(0, s.indexOf(","));
 	s = s.substring(s.indexOf(",") + 1);
-//	String maxPlayersString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String privateRoomString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String tournamentRoomString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String hostUserIDString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
 
-	//room_DifficultyName = s.substring(0, s.indexOf(","));
-	//s = s.substring(s.indexOf(",") + 1);
-//	String singlePlayer_randomizeSequenceString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String endlessModeString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String multiplayer_NumPlayersString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//
-//
-//	String multiplayer_AllowDifferentDifficultiesString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String multiplayer_AllowDifferentGameSequencesString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String multiplayer_GameEndsWhenOnePlayerRemainsString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String multiplayer_GameEndsWhenSomeoneCompletesCreditsLevelString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
-//	String multiplayer_DisableVSGarbageString = s.substring(0, s.indexOf(","));
-//	s = s.substring(s.indexOf(",") + 1);
 	allFrameStatesZipped = s.substring(0, s.indexOf(","));
 	s = s.substring(s.indexOf(",") + 1);
 	statsUUID = s.substring(0, s.indexOf(","));
@@ -445,135 +392,6 @@ public void decode(String s)
 		return;
 	}
 
-//	try
-//	{
-//		maxPlayers = Integer.parseInt(maxPlayersString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse maxPlayers");
-//		return;
-//	}
-//
-//	try
-//	{
-//		privateRoom = Integer.parseInt(privateRoomString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse privateRoom");
-//		return;
-//	}
-//
-//	try
-//	{
-//		tournamentRoom = Integer.parseInt(tournamentRoomString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse tournamentRoom");
-//		return;
-//	}
-//
-//	try
-//	{
-//		hostUserID = Long.parseLong(hostUserIDString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse hostUserID");
-//		return;
-//	}
-//
-//
-//
-//
-//
-//	try
-//	{
-//		singlePlayer_randomizeSequence = Integer.parseInt(singlePlayer_randomizeSequenceString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_AllowDifferentDifficulties");
-//		return;
-//	}
-//
-//
-//
-//	try
-//	{
-//		endlessMode = Integer.parseInt(endlessModeString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_AllowDifferentDifficulties");
-//		return;
-//	}
-//
-//
-//
-//	try
-//	{
-//		multiplayer_NumPlayers = Integer.parseInt(multiplayer_NumPlayersString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_AllowDifferentDifficulties");
-//		return;
-//	}
-//
-//
-//
-//	try
-//	{
-//		multiplayer_AllowDifferentDifficulties = Integer.parseInt(multiplayer_AllowDifferentDifficultiesString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_AllowDifferentDifficulties");
-//		return;
-//	}
-//
-//	try
-//	{
-//		multiplayer_AllowDifferentGameSequences = Integer.parseInt(multiplayer_AllowDifferentGameSequencesString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_AllowDifferentGameSequences");
-//		return;
-//	}
-//
-//	try
-//	{
-//		multiplayer_GameEndsWhenOnePlayerRemains = Integer.parseInt(multiplayer_GameEndsWhenOnePlayerRemainsString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_GameEndsWhenOnePlayerRemains");
-//		return;
-//	}
-//
-//	try
-//	{
-//		multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = Integer.parseInt(multiplayer_GameEndsWhenSomeoneCompletesCreditsLevelString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel");
-//		return;
-//	}
-//
-//	try
-//	{
-//		multiplayer_DisableVSGarbage = Integer.parseInt(multiplayer_DisableVSGarbageString);
-//	}
-//	catch (Exception e)
-//	{
-//		log.error("Could not parse multiplayer_DisableVSGarbage");
-//		return;
-//	}
 
 
 }
@@ -619,21 +437,6 @@ public BobsGameGameStats(ResultSet databaseResultSet)
 		
 		combosMade = databaseResultSet.getInt("combosMade");
 		biggestCombo = databaseResultSet.getInt("biggestCombo");
-		//maxPlayers = databaseResultSet.getInt("maxPlayers");
-		//privateRoom = databaseResultSet.getInt("privateRoom");
-		//tournamentRoom = databaseResultSet.getInt("tournamentRoom");
-		//hostUserID = databaseResultSet.getLong("hostUserID");
-
-		//room_DifficultyName = databaseResultSet.getString("room_DifficultyName");
-		//singlePlayer_randomizeSequence = databaseResultSet.getInt("singlePlayer_randomizeSequence");
-		//endlessMode = databaseResultSet.getInt("endlessMode");
-		//multiplayer_NumPlayers = databaseResultSet.getInt("multiplayer_NumPlayers");
-
-		//multiplayer_AllowDifferentDifficulties = databaseResultSet.getInt("multiplayer_AllowDifferentDifficulties");
-		//multiplayer_AllowDifferentGameSequences = databaseResultSet.getInt("multiplayer_AllowDifferentGameSequences");
-		//multiplayer_GameEndsWhenOnePlayerRemains = databaseResultSet.getInt("multiplayer_GameEndsWhenOnePlayerRemains");
-		//multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel = databaseResultSet.getInt("multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel");
-		//multiplayer_DisableVSGarbage = databaseResultSet.getInt("multiplayer_DisableVSGarbage");
 		allFrameStatesZipped = databaseResultSet.getString("allFrameStatesZipped");
 		statsUUID = databaseResultSet.getString("statsUUID");
 		playerIDsCSV = databaseResultSet.getString("playerIDsCSV");
@@ -722,25 +525,10 @@ public PreparedStatement getInsertStatement(Connection databaseConnection, BobsG
 
 		"combosMade , " +
 		"biggestCombo , " +
-		//"maxPlayers , " +
-		//"privateRoom , " +
-		//"tournamentRoom , " +
-
-		//"hostUserID , " +
-		//"room_DifficultyName , " +
-		//"singlePlayer_randomizeSequence , " +
-		//"endlessMode , " +
-		//"multiplayer_NumPlayers , " +
-
-		//"multiplayer_AllowDifferentDifficulties , " +
-		//"multiplayer_AllowDifferentGameSequences , " +
-		//"multiplayer_GameEndsWhenOnePlayerRemains , " +
-		//"multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel , " +
-		//"multiplayer_DisableVSGarbage , " +
-
 		"allFrameStatesZipped , " +
 		"statsUUID , " +
 		"playerIDsCSV, " +
+		
 		room.getDBVariables() +
 
 		" ) VALUES ( " +
@@ -750,10 +538,6 @@ public PreparedStatement getInsertStatement(Connection databaseConnection, BobsG
 		"?, ?, ?, ?, ?, " +
 		"?, ?, ?, ?, ?, " +
 
-		//"?, ?, ?, ?, ?, " +
-		//"?, ?, ?, ?, ?, " +
-
-		//"?, ?, ?, ?, ?, " +
 		"?, ?, ?, ?, ?, " +
 		"?, ?, ?, ?, ?, " +
 		room.getDBQuestionMarks() +
@@ -785,6 +569,7 @@ public PreparedStatement getInsertStatement(Connection databaseConnection, BobsG
 	ps.setInt		(c++, level);
 	ps.setLong		(c++, timeLasted);
 	ps.setLong		(c++, timeStarted);
+	
 
 	ps.setLong		(c++, timeEnded);
 	ps.setInt		(c++, blocksMade);
@@ -794,24 +579,6 @@ public PreparedStatement getInsertStatement(Connection databaseConnection, BobsG
 
 	ps.setInt		(c++, combosMade);
 	ps.setInt		(c++, biggestCombo);
-	
-	
-	//ps.setInt		(c++, maxPlayers);
-	//ps.setInt		(c++, privateRoom);
-	//ps.setInt		(c++, tournamentRoom);
-
-	//ps.setLong		(c++, hostUserID);
-	//ps.setString	(c++, room_DifficultyName);
-	//ps.setInt		(c++, singlePlayer_randomizeSequence);
-	//ps.setInt		(c++, endlessMode);
-	//ps.setInt		(c++, multiplayer_NumPlayers);
-
-	//ps.setInt		(c++, multiplayer_AllowDifferentDifficulties);
-	//ps.setInt		(c++, multiplayer_AllowDifferentGameSequences);
-	//ps.setInt		(c++, multiplayer_GameEndsWhenOnePlayerRemains);
-	//ps.setInt		(c++, multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel);
-	//ps.setInt		(c++, multiplayer_DisableVSGarbage);
-
 	ps.setString	(c++, allFrameStatesZipped);
 	ps.setString	(c++, statsUUID);
 	ps.setString	(c++, playerIDsCSV);
