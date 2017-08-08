@@ -211,7 +211,7 @@ public class BobsGameRoom
 		
 		"spawnDelayDecreaseRate, " +
 		"spawnDelayMinimum, " +
-		"dropDelayMinimum, "
+		"dropDelayMinimum "
 		;
 	}
 	
@@ -242,29 +242,28 @@ public class BobsGameRoom
 			ps.setString(c++,room_GameTypeUUID);
 			ps.setString(c++,room_GameSequenceName);
 			ps.setString(c++,room_GameSequenceUUID);
+			
 			ps.setString(c++,room_DifficultyName);
 			ps.setInt(c++,singleplayer_RandomizeSequence);
-			
 			ps.setInt(c++,multiplayer_NumPlayers);
 			ps.setLong(c++,multiplayer_HostUserID);
-			
 			ps.setInt(c++,multiplayer_MaxPlayers);
+			
 			ps.setInt(c++,multiplayer_PrivateRoom);
 			ps.setInt(c++,multiplayer_TournamentRoom);
 			ps.setInt(c++,multiplayer_AllowDifferentDifficulties);
 			ps.setInt(c++,multiplayer_AllowDifferentGameSequences);
-			
 			ps.setInt(c++,endlessMode);
+			
 			ps.setInt(c++,multiplayer_GameEndsWhenOnePlayerRemains);
 			ps.setInt(c++,multiplayer_GameEndsWhenSomeoneCompletesCreditsLevel);
 			ps.setInt(c++,multiplayer_DisableVSGarbage);
-	
 			ps.setFloat(c++,gameSpeedStart);
 			ps.setFloat(c++,gameSpeedChangeRate);
+			
 			ps.setFloat(c++,gameSpeedMaximum);
 			ps.setFloat(c++,levelUpMultiplier);
 			ps.setFloat(c++,levelUpCompoundMultiplier);
-			
 			ps.setInt(c++,multiplayer_AllowNewPlayersDuringGame);
 			ps.setInt(c++,multiplayer_UseTeams);
 			
@@ -272,14 +271,14 @@ public class BobsGameRoom
 			ps.setInt(c++,multiplayer_GarbageLimit);
 			ps.setInt(c++,multiplayer_GarbageScaleByDifficulty);
 			ps.setInt(c++,multiplayer_SendGarbageTo);
-			
 			ps.setInt(c++,floorSpinLimit);
+			
 			ps.setInt(c++,totalYLockDelayLimit);
 			ps.setFloat(c++,lockDelayDecreaseRate);
 			ps.setInt(c++,lockDelayMinimum);
-			
 			ps.setInt(c++,stackWaitLimit);
 			ps.setInt(c++,spawnDelayLimit);
+			
 			ps.setFloat(c++,spawnDelayDecreaseRate);
 			ps.setInt(c++,spawnDelayMinimum);
 			ps.setInt(c++,dropDelayMinimum);
