@@ -316,7 +316,7 @@ public class BobsGameRoom
 		if(this.spawnDelayMinimum != r.spawnDelayMinimum) {log.error("spawnDelayMinimum"+this.spawnDelayMinimum+" "+r.spawnDelayMinimum);changed = true;}
 		if(this.dropDelayMinimum != r.dropDelayMinimum) {log.error("dropDelayMinimum"+this.dropDelayMinimum+" "+r.dropDelayMinimum);changed = true;}
 
-		if(changed)return true;
+		if(changed)return false;
 		return true;
 	}
 	
