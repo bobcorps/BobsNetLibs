@@ -135,16 +135,20 @@ public void decode(String s)
 	
 	isGameSequenceOrType = s.substring(0, s.indexOf(","));
 	s = s.substring(s.indexOf(",") + 1);
+	
 	s = s.substring(s.indexOf("`") + 1);
 	gameTypeName = s.substring(0, s.indexOf("`"));
 	s = s.substring(s.indexOf("`") + 1);
 	s = s.substring(s.indexOf(",") + 1);
+	
 	gameTypeUUID = s.substring(0, s.indexOf(","));
 	s = s.substring(s.indexOf(",") + 1);
+	
 	s = s.substring(s.indexOf("`") + 1);
 	gameSequenceName = s.substring(0, s.indexOf("`"));
 	s = s.substring(s.indexOf("`") + 1);
 	s = s.substring(s.indexOf(",") + 1);
+	
 	gameSequenceUUID = s.substring(0, s.indexOf(","));
 	s = s.substring(s.indexOf(",") + 1);
 	

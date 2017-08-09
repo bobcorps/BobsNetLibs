@@ -211,15 +211,15 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		//now compare gameStats with userHighScore variables and set them
 
 		String name = "";
-		if(isGameSequenceOrType=="GameType")name = gameTypeName;
-		if(isGameSequenceOrType=="GameSequence")name = gameSequenceName;
-		if(isGameSequenceOrType=="OVERALL")name = "OVERALL";
+		if(isGameSequenceOrType.equals("GameType"))name = gameTypeName;
+		if(isGameSequenceOrType.equals("GameSequence"))name = gameSequenceName;
+		if(isGameSequenceOrType.equals("OVERALL"))name = "OVERALL";
 		String tempResponse = ""; 
 		
 		
 		totalGamesPlayed++;
 
-		if(game.room.multiplayer_NumPlayers==1 && game.isLocalMultiplayer == 0 && game.isNetworkMultiplayer == 0)
+		if(game.numPlayers==1 && game.isLocalMultiplayer == 0 && game.isNetworkMultiplayer == 0)
 		{
 			singlePlayerGamesPlayed++;
 			if(game.complete==1)singlePlayerGamesCompleted++;

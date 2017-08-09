@@ -1050,9 +1050,9 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 			{
 				
 				String name = "";
-				if(isGameSequenceOrType=="GameType")name = gameTypeName;
-				if(isGameSequenceOrType=="GameSequence")name = gameSequenceName;
-				if(isGameSequenceOrType=="OVERALL")name = "OVERALL";
+				if(isGameSequenceOrType.equals("GameType"))name = gameTypeName;
+				if(isGameSequenceOrType.equals("GameSequence"))name = gameSequenceName;
+				if(isGameSequenceOrType.equals("OVERALL"))name = "OVERALL";
 				
 				String type = "";
 				if(compareEloScore)type = "Top Players By ELO Score";
