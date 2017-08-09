@@ -206,7 +206,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 
 
 	//===============================================================================================
-	public boolean updateFromGameStats(Connection databaseConnection,BobsGameGameStats game, BobsGameLeaderBoardAndHighScoreBoard.LeaderBoardScore score, String responseString)
+	public boolean updateFromGameStats(Connection databaseConnection,BobsGameGameStats game, BobsGameLeaderBoardAndHighScoreBoard.LeaderBoardScore score, String responseString, String activityString)
 	{//===============================================================================================
 		//now compare gameStats with userHighScore variables and set them
 
@@ -215,6 +215,7 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		if(isGameSequenceOrType=="GameSequence")name = gameSequenceName;
 		if(isGameSequenceOrType=="OVERALL")name = "OVERALL";
 		String tempResponse = ""; 
+		
 		
 		totalGamesPlayed++;
 
@@ -464,6 +465,9 @@ public class BobsGameUserStatsForSpecificGameAndDifficulty
 		if(tempResponse.length()>0)
 		{
 			responseString += "`Results for "+name+" - "+difficultyName+"`,"+tempResponse;
+			
+			activityString += "`"+game.userName+" set a new record for "+name+" - "+difficultyName+"`,";
+			
 		}
 
 		return true;

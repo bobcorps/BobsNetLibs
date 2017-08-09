@@ -274,6 +274,11 @@ public class BobNet
 
 	public static final String Bobs_Game_GameStats = "Bobs_Game_GameStats:";
 	public static final String Bobs_Game_GameStats_Response = "Bobs_Game_GameStats_Response:";
+	
+	
+	public static final String Bobs_Game_ActivityStream_Request = "Bobs_Game_ActivityStream_Request:";
+	public static final String Bobs_Game_ActivityStream_Response = "Bobs_Game_ActivityStream_Response:";
+	public static final String Bobs_Game_ActivityStream_Update = "Bobs_Game_ActivityStream_Update:";
 
 
 
@@ -299,6 +304,7 @@ public class BobNet
 	public static final String Bobs_Game_LeaderBoardsByTotalBlocksCleared_DB_Name = "bobsGameLeaderBoardsByTotalBlocksCleared";
 	public static final String Bobs_Game_HighScoreBoardsByBlocksCleared_DB_Name = "bobsGameHighScoreBoardsByBlocksCleared";
 	public static final String Bobs_Game_HighScoreBoardsByTimeLasted_DB_Name = "bobsGameHighScoreBoardsByTimeLasted";
+	public static final String Bobs_Game_ActivityStream_DB_Name = "bobsGameActivityStream";
 
 
 
