@@ -970,7 +970,7 @@ public class BobsGameLeaderBoardAndHighScoreBoard
 				}
 				else
 				{
-					if(score.fastestTimeClearedThisGameAndDifficulty<existingEntry.fastestClearedLength)
+					if(game.complete==1 && (score.fastestTimeClearedThisGameAndDifficulty<existingEntry.fastestClearedLength || existingEntry.fastestClearedLength==0))
 					{
 						replaceScore = true;
 	
