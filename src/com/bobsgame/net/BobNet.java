@@ -266,6 +266,7 @@ public class BobNet
 	public static final String Bobs_Game_RoomList_Request = "Bobs_Game_RoomList_Request:";
 	public static final String Bobs_Game_RoomList_Response = "Bobs_Game_RoomList_Response:";
 	public static final String Bobs_Game_TellRoomHostToAddMyUserID = "Bobs_Game_TellRoomHostToAddMyUserID:";
+	public static final String Bobs_Game_NewRoomCreatedUpdate = "Bobs_Game_NewRoomCreatedUpdate:";
 
 	public static final String Bobs_Game_HostingPublicRoomUpdate = "Bobs_Game_HostingPublicRoomUpdate:";
 	public static final String Bobs_Game_HostingPublicRoomStarted = "Bobs_Game_HostingPublicRoomStarted:";
