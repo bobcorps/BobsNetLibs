@@ -234,6 +234,9 @@ public class BobNet
 	public static final String INDEX_Tell_All_Servers_To_Tell_FacebookIDs_That_UserID_Is_Online = "INDEX_Tell_All_Servers_To_Tell_FacebookIDs_That_UserID_Is_Online:";
 	public static final String INDEX_Tell_All_Servers_To_Tell_UserNames_That_UserID_Is_Online = "INDEX_Tell_All_Servers_To_Tell_UserNames_That_UserID_Is_Online:";
 	public static final String INDEX_UserID_Logged_On_This_Server_Log_Them_Off_Other_Servers = "INDEX_UserID_Logged_On_This_Server_Log_Them_Off_Other_Servers:";
+	public static final String INDEX_Tell_All_Servers_To_Send_Activity_Update_To_All_Clients = "INDEX_Tell_All_Servers_To_Send_Activity_Update_To_All_Clients:";
+	public static final String INDEX_Tell_All_Servers_To_Send_Chat_Message_To_All_Clients = "INDEX_Tell_All_Servers_To_Send_Chat_Message_To_All_Clients:";
+
 
 	public static final String INDEX_Tell_All_Servers_Bobs_Game_Hosting_Room_Update = "INDEX_Tell_All_Servers_Bobs_Game_Hosting_Room_Update:";
 	public static final String INDEX_Tell_All_Servers_Bobs_Game_Remove_Room = "INDEX_Tell_All_Servers_Bobs_Game_Remove_Room:";
@@ -252,6 +255,9 @@ public class BobNet
 
 	public static final String Server_Bobs_Game_Hosting_Room_Update = "Server_Bobs_Game_Hosting_Room_Update:";
 	public static final String Server_Bobs_Game_Remove_Room = "Server_Bobs_Game_Remove_Room:";
+	
+	public static final String Server_Send_Activity_Update_To_All_Clients = "Server_Send_Activity_Update_To_All_Clients:";
+	public static final String Server_Send_Chat_Message_To_All_Clients = "Server_Send_Chat_Message_To_All_Clients:";
 
 	//BOBS GAME
 	public static final String Bobs_Game_GameTypesAndSequences_Download_Request = "Bobs_Game_GameTypesAndSequences_Download_Request:";
@@ -311,6 +317,7 @@ public class BobNet
 
 
 
+	public static final String Chat_Message = "Chat_Message:";
 	public static final String Server_Stats_Request = "Server_Stats_Request:";
 	public static final String Server_Stats_Response = "Server_Stats_Response:";
 
