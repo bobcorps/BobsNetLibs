@@ -1,2 +1,3 @@
 *.class
 /bin
+/src/com/bobsgame/net/PrivateCredentials.java
