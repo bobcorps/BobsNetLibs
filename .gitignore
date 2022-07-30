@@ -1,3 +1,6 @@
+.idea/
 *.class
+*.iml
+target/
 /bin
 /src/com/bobsgame/net/PrivateCredentials.java
